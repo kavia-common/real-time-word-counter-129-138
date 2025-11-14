@@ -54,30 +54,19 @@ function App() {
   };
 
   return (
-    <div className="word-counter-app"
-         style={{
-            minHeight: '100vh',
-            background: 'var(--color-bg)',
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            justifyContent: 'center'
-         }}>
-      <main aria-label="Word Counter Application" style={{ width: '100%', padding: '1.5rem 0' }}>
+    <div className="word-counter-app">
+      <main aria-label="Word Counter Application" style={{ width: '100%', padding: 'var(--space-6) 0' }}>
         <section className="counter-card">
           <header className="counter-header">
             Real-time Word Counter
           </header>
           {/* DemoTypingSpeed component */}
           <DemoTypingSpeed />
+
           <label
             htmlFor="word-counter-textarea"
-            style={{
-              fontWeight: 600,
-              marginBottom: 8,
-              color: 'var(--color-text)',
-              fontSize: '1.08rem'
-            }}>
+            className="counter-label"
+          >
             Enter your text:
           </label>
           <textarea
@@ -89,17 +78,14 @@ function App() {
             rows={10}
             spellCheck={true}
             className="word-counter-textarea"
-            style={{
-              width: '100%',
-              resize: 'vertical'
-            }}
+            style={{resize: 'vertical'}}
           />
           <div className="counter-actions"
                style={{
                  display: 'flex',
-                 gap: '0.75rem',
+                 gap: 'var(--space-3)',
                  justifyContent: 'flex-end',
-                 marginBottom: '1.25rem'
+                 marginBottom: 'var(--space-4)'
                }}
           >
             <button
@@ -119,7 +105,6 @@ function App() {
               disabled={text.length === 0}
               onClick={handleCopy}
               tabIndex={0}
-              style={copied ? { boxShadow: '0 0 6px 0 var(--color-accent)55' } : {}}
             >
               {copied ? 'Copied!' : 'Copy'}
             </button>
@@ -156,15 +141,10 @@ function App() {
           {/* Bottom frequency stats section */}
           <FrequencyStats text={text} />
 
-          <footer style={{
-            fontSize: '0.93rem',
-            color: 'var(--color-secondary)',
-            marginTop: '2rem',
-            textAlign: 'center'
-          }}>
+          <footer className="footer-hint">
             <span>
-              <span style={{ color: 'var(--color-primary)', fontWeight: 700 }}>Word Counter</span> •{' '}
-              <span style={{ color: 'var(--color-accent)' }}>Light theme</span> •
+              <span className="footer-title">Word Counter</span> •{' '}
+              <span className="footer-theme">Light theme</span> •
               <span className="visually-hidden">All counts update automatically as you type.</span>
             </span>
           </footer>
@@ -184,6 +164,20 @@ function App() {
  */
 // PUBLIC_INTERFACE
 function StatPill({ label, value, color = 'var(--color-text)', testid }) {
+  // Micro-animation: animate value change
+  const [displayVal, setDisplayVal] = React.useState(value);
+  const [animClass, setAnimClass] = React.useState('');
+  React.useEffect(() => {
+    if (displayVal !== value) {
+      setAnimClass('pill-value-animate');
+      const timeout = setTimeout(() => {
+        setDisplayVal(value);
+        setAnimClass('');
+      }, 320);
+      return () => clearTimeout(timeout);
+    }
+    // eslint-disable-next-line
+  }, [value]);
   return (
     <span
       className="counter-pill"
@@ -191,22 +185,13 @@ function StatPill({ label, value, color = 'var(--color-text)', testid }) {
       style={{
         background: `color-mix(in srgb, ${color} 8%, transparent)`,
         color: color,
-        borderRadius: 18,
-        padding: '0.42rem 1.22rem',
-        fontWeight: 600,
-        fontSize: '1.12rem',
-        letterSpacing: '-.3px',
-        whiteSpace: 'nowrap',
-        minWidth: 60,
-        textAlign: 'center',
-        userSelect: 'none',
         border: `1.5px solid color-mix(in srgb, ${color} 13%, transparent)`,
-        outline: 'none'
+        whiteSpace: 'nowrap'
       }}
       aria-label={`${label}: ${value}`}
       tabIndex={0}
     >
-      {value} <span style={{ fontWeight: 400, fontSize: '0.95em' }}>{label}</span>
+      <span className={animClass}>{displayVal}</span> <span style={{ fontWeight: 400, fontSize: '0.95em' }}>{label}</span>
     </span>
   );
 }

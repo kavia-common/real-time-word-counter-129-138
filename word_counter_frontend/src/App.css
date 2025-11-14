@@ -1,9 +1,41 @@
 /* Root variables are now set in index.css */
 
+/* SPACING & MOTION TOKENS */
+:root {
+  /* Spacing scale tokens */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.85rem;
+  --space-4: 1.25rem;
+  --space-5: 2rem;
+  --space-6: 3.5rem;
+
+  /* Animation durations/types */
+  --motion-fast: 0.15s;
+  --motion-medium: 0.28s;
+  --motion-slow: 0.6s;
+  --motion-ease: cubic-bezier(0.45, 0.03, 0.47, 1.0);
+  --motion-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* Respect prefers-reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --motion-fast: 0.001s;
+    --motion-medium: 0.001s;
+    --motion-slow: 0.001s;
+  }
+}
+
 /* App wrapper styles */
 .word-counter-app {
   min-height: 100vh;
   background: var(--color-bg);
+  font-family: inherit;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 /* Card (main container) */
@@ -14,24 +46,41 @@
   width: 100%;
   max-width: 800px;
   margin: 0 auto;
-  padding: 2.5rem 1.5rem 2rem 1.5rem;
+  padding: var(--space-6) var(--space-4) var(--space-5) var(--space-4);
   display: flex;
   flex-direction: column;
   align-items: stretch;
+  /* card enter animation */
+  opacity: 0;
+  transform: translateY(16px) scale(0.99);
+  animation: card-fadein var(--motion-slow) var(--motion-ease) forwards;
+}
+@media (prefers-reduced-motion: reduce) {
+  .counter-card {
+    animation: none !important;
+  }
+}
+@keyframes card-fadein {
+  to {
+    opacity: 1;
+    transform: none;
+  }
 }
 
 /* Gradient header text */
 .counter-header {
-  font-size: 2rem;
+  font-size: 2.05rem;
   font-weight: 700;
+  line-height: 1.18; /* improved type rhythm */
   text-align: center;
-  padding-bottom: 1.3rem;
+  padding-bottom: var(--space-4);
   background: var(--color-surface-gradient);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  letter-spacing: -1px;
-  margin: -1rem -1rem 1.25rem -1rem;
+  letter-spacing: -0.9px;
+  margin: calc(-1 * var(--space-4)) calc(-1 * var(--space-4)) var(--space-5) calc(-1 * var(--space-4));
   user-select: none;
+  transition: color var(--motion-medium) var(--motion-ease);
 }
 
 /* Textarea styles */
@@ -39,51 +88,73 @@
   border: 1.5px solid var(--color-border);
   background: var(--color-bg);
   color: var(--color-text);
-  font-size: 1.13rem;
-  border-radius: 8px;
+  font-size: 1.16rem;
+  line-height: 1.56; /* improved rhythm */
+  border-radius: 9px;
   width: 100%;
   font-family: inherit;
-  padding: 1.15rem;
-  margin-bottom: 1.15rem;
+  padding: var(--space-4);
+  margin-bottom: var(--space-4);
   min-height: 130px;
-  transition: border .2s, box-shadow .18s;
+  transition:
+    border var(--motion-medium) var(--motion-ease),
+    box-shadow var(--motion-fast) var(--motion-ease),
+    outline-color var(--motion-medium);
   box-sizing: border-box;
 }
-
 .word-counter-textarea:focus {
-  outline: 3px solid var(--color-primary);
-  outline-offset: 0.5px;
+  outline: 2.5px solid var(--color-primary);
+  outline-offset: 1.5px;
   border-color: var(--color-primary);
   background: #f3f7fb;
-  box-shadow: 0 0 0 2px var(--color-primary)80;
+  box-shadow: 0 0 0 3px var(--color-primary)50;
+  transition:
+    outline-color var(--motion-medium) var(--motion-ease),
+    box-shadow var(--motion-medium) var(--motion-ease);
+  /* Fade-in focus ring on focus */
+  animation: textarea-focusring var(--motion-medium) var(--motion-ease);
+}
+@keyframes textarea-focusring {
+  from { box-shadow: 0 0 0 0 var(--color-primary)00, 0 0 0 0 var(--color-primary)00; }
+  to   { box-shadow: 0 0 0 3px var(--color-primary)50; }
 }
 
 /* Button styles */
 .counter-btn {
   min-width: 82px;
   min-height: 36px;
-  border-radius: 6px;
+  border-radius: 7px;
   border: 1.2px solid var(--color-border);
   font-weight: 500;
   font-size: 1rem;
-  padding: 0.6rem 1.2rem;
-  transition: background .18s, color .18s, box-shadow .18s;
+  padding: var(--space-2) var(--space-4);
+  transition:
+    background var(--motion-fast) var(--motion-ease),
+    color var(--motion-fast) var(--motion-ease),
+    box-shadow var(--motion-fast) var(--motion-ease),
+    transform var(--motion-fast) var(--motion-bounce),
+    border-color var(--motion-fast) var(--motion-ease);
   cursor: pointer;
   outline: none;
   background: var(--color-surface-alt);
   color: var(--color-text);
   position: relative;
+  box-shadow: 0 1px 3px 0 rgba(60,80,120,0.04);
+  will-change: transform, box-shadow;
 }
-
 .counter-btn:not(:disabled):hover,
 .counter-btn:not(:disabled):focus {
   background: var(--color-primary);
   color: #fff;
   border-color: var(--color-primary);
-  box-shadow: 0 0 0 3px var(--color-primary)30;
+  box-shadow: 0 7px 20px -4px var(--color-primary)15,
+    0 2px 7px 0 rgba(60,80,120,0.09) !important;
+  transform: scale(1.035) translateY(-2px);
+  z-index: 1;
 }
 .counter-btn:active {
   filter: brightness(0.97);
+  transform: scale(0.98) translateY(1px);
 }
 
 /* Primary action (copy button) */
@@ -91,13 +162,32 @@
   background: var(--color-primary);
   color: #fff;
   border: 1.2px solid var(--color-primary);
+  transition:
+    background var(--motion-fast) var(--motion-ease),
+    color var(--motion-fast) var(--motion-ease),
+    box-shadow var(--motion-fast) var(--motion-ease),
+    border-color var(--motion-fast) var(--motion-ease),
+    transform var(--motion-fast) var(--motion-ease);
 }
 .counter-btn.primary:not(:disabled):hover,
 .counter-btn.primary:not(:disabled):focus {
   background: var(--color-accent);
   color: #fff;
   border-color: var(--color-accent);
-  box-shadow: 0 0 0 3px var(--color-accent)30;
+  box-shadow: 0 8px 19px -2px var(--color-accent)19,
+    0 3px 9px 0 rgba(60,80,120,0.09) !important;
+  transform: scale(1.055) translateY(-3.5px);
+}
+
+/* Small animation for 'copied' feedback effect */
+.counter-btn.copied {
+  animation: copied-pop var(--motion-medium) var(--motion-ease);
+  box-shadow: 0 0 0 7px var(--color-accent)20;
+}
+@keyframes copied-pop {
+  0% { transform: scale(1.05); box-shadow: 0 0 0 0 var(--color-accent)90; }
+  70% { transform: scale(1.13); box-shadow: 0 0 0 8px var(--color-accent)30; }
+  100% { transform: scale(1.00); box-shadow: 0 0 0 0 var(--color-accent)00; }
 }
 
 /* Disabled (all) */
@@ -125,7 +215,7 @@
   background: color-mix(in srgb, var(--color-primary) 8%, transparent);
   color: var(--color-primary);
   border-radius: 18px;
-  padding: 0.42rem 1.22rem;
+  padding: var(--space-2) var(--space-3);
   font-weight: var(--color-pill-font-weight);
   font-size: 1.12rem;
   letter-spacing: -0.3px;
@@ -133,8 +223,37 @@
   text-align: center;
   user-select: none;
   border: 1.5px solid color-mix(in srgb, var(--color-primary) 13%, transparent);
-  transition: background .15s, color .15s;
+  transition:
+    background var(--motion-fast) var(--motion-ease),
+    box-shadow var(--motion-fast) var(--motion-bounce),
+    color var(--motion-fast) var(--motion-ease),
+    transform var(--motion-fast) var(--motion-bounce);
   outline: none;
+  will-change: box-shadow, transform;
+  /* micro entrance animation for metric number */
+  opacity: 0;
+  transform: translateY(10px) scale(.97);
+  animation: pill-entrance var(--motion-medium) .07s ease forwards;
+}
+@keyframes pill-entrance {
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+/* On hover/focus: shadow and lift */
+.counter-pill:focus,
+.counter-pill:hover {
+  background: color-mix(in srgb, var(--color-primary) 12%, transparent);
+  color: var(--color-primary);
+  box-shadow: 0 8px 16px -5px var(--color-primary)13;
+  transform: scale(1.07) translateY(-2px);
+  outline: 1.5px solid var(--color-primary);
+  transition:
+    background var(--motion-fast) var(--motion-ease),
+    color var(--motion-fast) var(--motion-ease),
+    box-shadow var(--motion-fast) var(--motion-bounce),
+    transform var(--motion-fast) var(--motion-bounce);
 }
 
 /* Custom pill colors can still be applied inline for contrast (or use variants!) */
@@ -151,78 +270,164 @@
   border: 0;
 }
 
+/* Utility/app label + footer tweaks for typographic rhythm */
+.counter-label {
+  font-weight: 600;
+  margin-bottom: var(--space-2);
+  color: var(--color-text);
+  font-size: 1.08rem;
+  letter-spacing: -0.02em;
+  display: block;
+}
+
+.footer-hint {
+  font-size: 0.93rem;
+  color: var(--color-secondary);
+  margin-top: var(--space-6);
+  text-align: center;
+  padding-bottom: var(--space-2);
+}
+.footer-title {
+  color: var(--color-primary);
+  font-weight: 700;
+}
+.footer-theme {
+  color: var(--color-accent);
+}
+
+/* Pill focus for keyboard accessibility */
+.counter-pill:focus {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 1px;
+  box-shadow: 0 0 0 3px var(--color-primary)10;
+}
+
 /* Frequency Stats Section */
 .frequency-stats {
   border-top: 1.5px solid #e6edf5;
-  margin-top: 2rem;
+  margin-top: var(--space-6);
   background: var(--color-surface-alt);
   font-size: 1.04rem;
-  padding-bottom: 1.25rem;
-  padding-top: 1.22rem;
+  padding-bottom: var(--space-3);
+  padding-top: var(--space-3);
   border-radius: 0 0 16px 16px;
-  margin: 2rem -1.5rem -2rem -1.5rem;
-  padding: 1.2rem 0.6rem 1.3rem 0.6rem;
+  margin: var(--space-6) calc(-1 * var(--space-4)) calc(-1 * var(--space-5)) calc(-1 * var(--space-4));
+  padding: var(--space-4) var(--space-2) var(--space-4) var(--space-2);
   color: #234;
   display: flex;
-  gap: 2.2rem;
+  gap: var(--space-5);
   justify-content: center;
   align-items: center;
   min-height: 38px;
   box-sizing: border-box;
+  /* entrance fadein */
+  opacity: 0;
+  transform: translateY(14px) scale(.98);
+  animation: frequency-stats-in var(--motion-slow) .19s ease forwards;
+}
+@media (prefers-reduced-motion: reduce) {
+  .frequency-stats { animation: none !important; }
+}
+@keyframes frequency-stats-in {
+  to {
+    opacity: 1;
+    transform: none;
+  }
 }
 
 /* DemoTypingSpeed component styles */
 .demo-typing-speed {
-  transition: box-shadow .13s;
+  transition: box-shadow var(--motion-fast) var(--motion-ease);
   background: var(--color-bg);
   border-radius: 12px;
   border: 1.5px solid #e1e8f2;
-  padding: 0.76em 1.15em;
+  padding: var(--space-3) var(--space-4);
   color: var(--color-text);
-  font-size: 1.09rem;
-  line-height: 1.35;
+  font-size: 1.12rem;
+  line-height: 1.38;
   box-shadow: 0 2px 7px 0 rgba(60,80,120,0.07);
   min-height: 56px;
   max-width: 680px;
   width: 100%;
 }
 
+.demo-typing-region {
+  font-family: monospace;
+  font-weight: 500;
+  font-size: 1.08em;
+  color: var(--color-primary);
+  letter-spacing: 0.01em;
+  min-width: 19ch;
+  background: none;
+  border: none;
+  outline: none;
+  user-select: none;
+}
+
+/* Animated blinking cursor for typing demo */
+.demo-typing-region > [data-testid="demo-cursor"] {
+  display: inline;
+  animation: demo-blink .93s steps(1) infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .demo-typing-region > [data-testid="demo-cursor"] {
+    animation: none !important;
+  }
+}
+
+/* Typing speed numbers micro-animation (fade-in) */
+.demo-typing-metrics span {
+  opacity: 0;
+  transform: translateY(7px) scale(.97);
+  animation: metric-appearance var(--motion-medium) .07s forwards;
+}
+@keyframes metric-appearance {
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
 /* Responsive layout */
 @media (max-width: 600px) {
   .counter-card {
-    padding: 1.1rem 0.2rem 1.3rem 0.2rem;
+    padding: var(--space-4) var(--space-1) var(--space-4) var(--space-1);
     border-radius: 0.6rem;
+    max-width: 99vw;
   }
   .counter-header {
-    font-size: 1.25rem;
-    margin: 0 0 0.6rem 0;
+    font-size: 1.28rem;
+    margin: 0 0 var(--space-2) 0;
+    padding-bottom: var(--space-3);
   }
   .word-counter-textarea {
-    font-size: 1.015rem;
-    padding: 0.7rem;
+    font-size: 1.02rem;
+    padding: var(--space-2);
+    margin-bottom: var(--space-3);
   }
   .counter-btn {
-    padding: 0.49rem 0.85rem;
-    font-size: 0.98rem;
+    padding: var(--space-1) var(--space-2);
+    font-size: 0.97rem;
   }
   .counter-stats-row {
-    gap: 0.5rem;
+    gap: var(--space-1);
   }
   .frequency-stats {
     flex-direction: column;
-    gap: 0.5rem;
+    gap: var(--space-2);
     font-size: 0.97rem;
-    padding: 0.85rem 0.3rem 1.0rem 0.3rem;
-    margin: 1.1rem -0.7rem -1.5rem -0.7rem;
+    padding: var(--space-2) var(--space-1) var(--space-3) var(--space-1);
+    margin: var(--space-3) calc(-1 * var(--space-1)) calc(-1 * var(--space-4)) calc(-1 * var(--space-1));
     border-radius: 0 0 8px 8px;
     min-height: 28px;
+    box-sizing: border-box;
   }
   .demo-typing-speed {
-    padding: 0.48em 0.37em;
-    font-size: 0.97rem;
+    padding: var(--space-2) var(--space-1);
+    font-size: 0.99rem;
     border-radius: 0.7rem;
-    max-width: 98vw;
-    margin: 0 0.1em 0.7em 0.1em;
+    max-width: 99vw;
+    margin: 0 var(--space-1) var(--space-3) var(--space-1);
     min-height: 48px;
   }
 }
@@ -230,4 +435,23 @@
 @keyframes demo-blink {
   0%, 70% { opacity: 1; }
   71%, 100% { opacity: 0; }
+}
+
+/* Micro-animation for stat value (opacity/translateY on number change, non-distracting) */
+.pill-value-animate {
+  animation: metric-bounce-in var(--motion-medium) var(--motion-ease);
+}
+@keyframes metric-bounce-in {
+  0% {
+    opacity: 0.01;
+    transform: translateY(12px) scale(.95);
+  }
+  60% {
+    opacity: 1;
+    transform: translateY(-10px) scale(1.15);
+  }
+  100% {
+    opacity: 1;
+    transform: none;
+  }
 }

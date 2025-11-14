@@ -1,3 +1,25 @@
+/* Theme color tokens (usable anywhere in the app) */
+:root {
+  --color-primary: #3b82f6;
+  --color-accent: #06b6d4;
+  --color-surface: #ffffff;
+  --color-bg: #f9fafb;
+  --color-text: #111827;
+  --color-secondary: #64748b;
+  --color-error: #EF4444;
+  --color-pill-word: var(--color-primary);
+  --color-pill-chars: var(--color-secondary);
+  --color-pill-no-spaces: var(--color-accent);
+  --color-pill-lines: var(--color-text);
+  --color-pill-bg-opacity: 0.08;
+  --color-pill-border-opacity: 0.13;
+  --color-surface-gradient: linear-gradient(90deg, #3b82f61A 0%, #f3f4f6 100%);
+  --color-card-shadow: 0 6px 32px 0 rgba(60,80,120,0.09), 0 1px 4px 0 rgba(60,80,120,0.03);
+  --color-pill-font-weight: 600;
+  --color-border: #e5e7eb;
+  --color-surface-alt: #f2f6fd;
+}
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -5,7 +27,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background: #f9fafb;
+  background: var(--color-bg);
   min-height: 100vh;
 }
 

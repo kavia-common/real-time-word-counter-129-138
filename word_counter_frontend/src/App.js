@@ -2,6 +2,7 @@ import React, { useState, useRef } from 'react';
 import './App.css';
 import FrequencyStats from './components/FrequencyStats.jsx';
 import DemoTypingSpeed from './components/DemoTypingSpeed.jsx';
+
 // PUBLIC_INTERFACE
 function countWords(text) {
   /** Robust word counter for the word counter app.
@@ -53,50 +54,30 @@ function App() {
   };
 
   return (
-    <div className="word-counter-app" style={{
-      minHeight: '100vh',
-      background: '#f9fafb',
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center',
-      justifyContent: 'center'
-    }}>
+    <div className="word-counter-app"
+         style={{
+            minHeight: '100vh',
+            background: 'var(--color-bg)',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center'
+         }}>
       <main aria-label="Word Counter Application" style={{ width: '100%', padding: '1.5rem 0' }}>
-        <section className="counter-card" style={{
-          maxWidth: 800,
-          margin: '0 auto',
-          background: '#fff',
-          borderRadius: 16,
-          boxShadow: '0 6px 32px 0 rgba(60,80,120,0.09), 0 1px 4px 0 rgba(60,80,120,0.03)',
-          padding: '2.5rem 1.5rem 2rem 1.5rem',
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'stretch'
-        }}>
-          <header className="counter-header"
-            style={{
-              textAlign: 'center',
-              paddingBottom: '1.3rem',
-              background: 'linear-gradient(90deg, #3b82f6 0%, #06b6d4 100%)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-              fontSize: '2rem',
-              fontWeight: 700,
-              letterSpacing: '-1px',
-              margin: '-1rem -1rem 1.25rem -1rem',
-              userSelect: 'none'
-            }}>
+        <section className="counter-card">
+          <header className="counter-header">
             Real-time Word Counter
           </header>
           {/* DemoTypingSpeed component */}
           <DemoTypingSpeed />
-          <label htmlFor="word-counter-textarea"
-                 style={{
-                   fontWeight: 600,
-                   marginBottom: 8,
-                   color: '#111827',
-                   fontSize: '1.08rem'
-                 }}>
+          <label
+            htmlFor="word-counter-textarea"
+            style={{
+              fontWeight: 600,
+              marginBottom: 8,
+              color: 'var(--color-text)',
+              fontSize: '1.08rem'
+            }}>
             Enter your text:
           </label>
           <textarea
@@ -110,103 +91,65 @@ function App() {
             className="word-counter-textarea"
             style={{
               width: '100%',
-              resize: 'vertical',
-              fontSize: '1.15rem',
-              padding: '1.25rem',
-              borderRadius: 8,
-              border: '1.5px solid #dde3e7',
-              background: '#f9fafb',
-              color: '#111827',
-              minHeight: 130,
-              fontFamily: 'inherit',
-              marginBottom: '1.2rem',
-              outlineColor: '#3b82f6'
+              resize: 'vertical'
             }}
           />
           <div className="counter-actions"
-            style={{
-              display: 'flex',
-              gap: '0.75rem',
-              justifyContent: 'flex-end',
-              marginBottom: '1.25rem'
-            }}
+               style={{
+                 display: 'flex',
+                 gap: '0.75rem',
+                 justifyContent: 'flex-end',
+                 marginBottom: '1.25rem'
+               }}
           >
             <button
               type="button"
               className="counter-btn"
-              style={{
-                background: '#f3f4f6',
-                color: '#111827',
-                border: '1px solid #e5e7eb',
-                borderRadius: 6,
-                padding: '0.6rem 1.2rem',
-                fontWeight: 500,
-                fontSize: '1rem',
-                cursor: text.length > 0 ? 'pointer' : 'not-allowed',
-                opacity: text.length > 0 ? 1 : 0.5,
-                transition: 'background .2s'
-              }}
               aria-label="Clear text"
               disabled={text.length === 0}
               onClick={handleClear}
+              tabIndex={0}
             >
               Clear
             </button>
             <button
               type="button"
-              className="counter-btn"
-              style={{
-                background: '#3b82f6',
-                color: '#fff',
-                border: 'none',
-                borderRadius: 6,
-                padding: '0.6rem 1.3rem',
-                fontWeight: 600,
-                fontSize: '1rem',
-                cursor: text.length > 0 ? 'pointer' : 'not-allowed',
-                opacity: text.length > 0 ? 1 : 0.55,
-                boxShadow: copied ? '0 0 6px 0 #06b6d455' : '',
-                transition: 'background .2s, box-shadow .2s'
-              }}
+              className={`counter-btn primary${copied ? " copied" : ""}`}
               aria-label="Copy text to clipboard"
               disabled={text.length === 0}
               onClick={handleCopy}
+              tabIndex={0}
+              style={copied ? { boxShadow: '0 0 6px 0 var(--color-accent)55' } : {}}
             >
               {copied ? 'Copied!' : 'Copy'}
             </button>
           </div>
+
           <div aria-live="polite" aria-atomic="true"
                className="counter-stats-row"
-               style={{
-                 display: 'flex',
-                 flexWrap: 'wrap',
-                 gap: '0.7rem',
-                 justifyContent: 'center',
-                 alignItems: 'center'
-               }}
           >
             <StatPill
               label="Words"
               value={stats.words}
-              color="#3b82f6"
+              color="var(--color-primary)"
               testid="stat-words"
             />
             <StatPill
               label="Chars"
               value={stats.chars}
-              color="#64748b"
+              color="var(--color-secondary)"
               testid="stat-chars"
             />
             <StatPill
               label="No spaces"
               value={stats.charsNoSpaces}
-              color="#06b6d4"
+              color="var(--color-accent)"
               testid="stat-no-spaces"
             />
             <StatPill
               label="Lines"
               value={stats.lines}
-              color="#111827"
+              color="var(--color-text)"
               testid="stat-lines"
             />
           </div>
@@ -215,13 +158,13 @@ function App() {
 
           <footer style={{
             fontSize: '0.93rem',
-            color: '#64748b',
+            color: 'var(--color-secondary)',
             marginTop: '2rem',
             textAlign: 'center'
           }}>
             <span>
-              <span style={{ color: '#3b82f6', fontWeight: 700 }}>Word Counter</span> •{' '}
-              <span style={{ color: '#06b6d4' }}>Light theme</span> •
+              <span style={{ color: 'var(--color-primary)', fontWeight: 700 }}>Word Counter</span> •{' '}
+              <span style={{ color: 'var(--color-accent)' }}>Light theme</span> •
               <span className="visually-hidden">All counts update automatically as you type.</span>
             </span>
           </footer>
@@ -231,14 +174,22 @@ function App() {
   );
 }
 
+/**
+ * StatPill - Themed stat badge using theme color tokens.
+ * @param {object} props
+ * @param {string} props.label
+ * @param {number} props.value
+ * @param {string} props.color - CSS variable or hex.
+ * @param {string} props.testid
+ */
 // PUBLIC_INTERFACE
-function StatPill({ label, value, color = '#111827', testid }) {
+function StatPill({ label, value, color = 'var(--color-text)', testid }) {
   return (
     <span
       className="counter-pill"
       data-testid={testid}
       style={{
-        background: `${color}15`,
+        background: `color-mix(in srgb, ${color} 8%, transparent)`,
         color: color,
         borderRadius: 18,
         padding: '0.42rem 1.22rem',
@@ -249,7 +200,8 @@ function StatPill({ label, value, color = '#111827', testid }) {
         minWidth: 60,
         textAlign: 'center',
         userSelect: 'none',
-        border: `1.5px solid ${color}22`
+        border: `1.5px solid color-mix(in srgb, ${color} 13%, transparent)`,
+        outline: 'none'
       }}
       aria-label={`${label}: ${value}`}
       tabIndex={0}

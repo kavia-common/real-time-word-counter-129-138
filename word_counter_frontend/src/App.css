@@ -1,83 +1,143 @@
-:root {
-  --primary: #3b82f6;
-  --success: #06b6d4;
-  --secondary: #64748b;
-  --error: #EF4444;
-  --background: #f9fafb;
-  --surface: #ffffff;
-  --text: #111827;
-}
+/* Root variables are now set in index.css */
 
+/* App wrapper styles */
 .word-counter-app {
   min-height: 100vh;
-  background: var(--background);
+  background: var(--color-bg);
 }
 
+/* Card (main container) */
 .counter-card {
-  background: var(--surface);
-  border-radius: 1.1rem;
-  box-shadow: 0 6px 32px 0 rgba(60,80,120,0.09), 0 1px 4px 0 rgba(60,80,120,0.03);
+  background: var(--color-surface);
+  border-radius: 1.2rem;
+  box-shadow: var(--color-card-shadow);
   width: 100%;
-  padding: 2.5rem 1.5rem 2rem 1.5rem;
+  max-width: 800px;
   margin: 0 auto;
+  padding: 2.5rem 1.5rem 2rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
 }
 
+/* Gradient header text */
 .counter-header {
   font-size: 2rem;
+  font-weight: 700;
+  text-align: center;
+  padding-bottom: 1.3rem;
+  background: var(--color-surface-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  letter-spacing: -1px;
+  margin: -1rem -1rem 1.25rem -1rem;
+  user-select: none;
 }
 
+/* Textarea styles */
 .word-counter-textarea {
-  border: 1.5px solid #dde3e7;
-  background: var(--background);
-  color: var(--text);
+  border: 1.5px solid var(--color-border);
+  background: var(--color-bg);
+  color: var(--color-text);
   font-size: 1.13rem;
   border-radius: 8px;
   width: 100%;
   font-family: inherit;
-  padding: 1rem;
+  padding: 1.15rem;
   margin-bottom: 1.15rem;
-  transition: border .2s;
+  min-height: 130px;
+  transition: border .2s, box-shadow .18s;
+  box-sizing: border-box;
 }
 
 .word-counter-textarea:focus {
-  outline: 2px solid var(--primary);
-  border-color: var(--primary);
-  background: #f3f6fa;
+  outline: 3px solid var(--color-primary);
+  outline-offset: 0.5px;
+  border-color: var(--color-primary);
+  background: #f3f7fb;
+  box-shadow: 0 0 0 2px var(--color-primary)80;
 }
 
+/* Button styles */
 .counter-btn {
   min-width: 82px;
   min-height: 36px;
+  border-radius: 6px;
+  border: 1.2px solid var(--color-border);
+  font-weight: 500;
+  font-size: 1rem;
+  padding: 0.6rem 1.2rem;
+  transition: background .18s, color .18s, box-shadow .18s;
+  cursor: pointer;
+  outline: none;
+  background: var(--color-surface-alt);
+  color: var(--color-text);
+  position: relative;
 }
 
-.counter-btn:disabled,
-.counter-btn[disabled] {
-  opacity: 0.65;
-  cursor: not-allowed;
-  pointer-events: none;
+.counter-btn:not(:disabled):hover,
+.counter-btn:not(:disabled):focus {
+  background: var(--color-primary);
+  color: #fff;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px var(--color-primary)30;
 }
-
 .counter-btn:active {
   filter: brightness(0.97);
 }
 
+/* Primary action (copy button) */
+.counter-btn.primary {
+  background: var(--color-primary);
+  color: #fff;
+  border: 1.2px solid var(--color-primary);
+}
+.counter-btn.primary:not(:disabled):hover,
+.counter-btn.primary:not(:disabled):focus {
+  background: var(--color-accent);
+  color: #fff;
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 3px var(--color-accent)30;
+}
+
+/* Disabled (all) */
+.counter-btn:disabled,
+.counter-btn[disabled] {
+  opacity: 0.62;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* Statistic row */
 .counter-stats-row {
   margin-top: 0.5rem;
   margin-bottom: 0.65rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.7rem;
+  justify-content: center;
+  align-items: center;
 }
 
+/* Stat pill/badge */
 .counter-pill {
-  background: var(--primary)15;
-  color: var(--primary);
+  display: inline-block;
+  background: color-mix(in srgb, var(--color-primary) 8%, transparent);
+  color: var(--color-primary);
   border-radius: 18px;
-  padding: 0.41rem 1.19rem;
-  font-weight: 600;
-  font-size: 1.1rem;
-  letter-spacing: -.1px;
-  border: 1.3px solid var(--primary)21;
+  padding: 0.42rem 1.22rem;
+  font-weight: var(--color-pill-font-weight);
+  font-size: 1.12rem;
+  letter-spacing: -0.3px;
+  min-width: 60px;
+  text-align: center;
+  user-select: none;
+  border: 1.5px solid color-mix(in srgb, var(--color-primary) 13%, transparent);
+  transition: background .15s, color .15s;
+  outline: none;
 }
 
-/* custom pill colors applied inline for color contrast */
+/* Custom pill colors can still be applied inline for contrast (or use variants!) */
 
 /* Visually hidden for a11y */
 .visually-hidden {
@@ -89,6 +149,42 @@
   overflow: hidden;
   clip: rect(0 0 0 0);
   border: 0;
+}
+
+/* Frequency Stats Section */
+.frequency-stats {
+  border-top: 1.5px solid #e6edf5;
+  margin-top: 2rem;
+  background: var(--color-surface-alt);
+  font-size: 1.04rem;
+  padding-bottom: 1.25rem;
+  padding-top: 1.22rem;
+  border-radius: 0 0 16px 16px;
+  margin: 2rem -1.5rem -2rem -1.5rem;
+  padding: 1.2rem 0.6rem 1.3rem 0.6rem;
+  color: #234;
+  display: flex;
+  gap: 2.2rem;
+  justify-content: center;
+  align-items: center;
+  min-height: 38px;
+  box-sizing: border-box;
+}
+
+/* DemoTypingSpeed component styles */
+.demo-typing-speed {
+  transition: box-shadow .13s;
+  background: var(--color-bg);
+  border-radius: 12px;
+  border: 1.5px solid #e1e8f2;
+  padding: 0.76em 1.15em;
+  color: var(--color-text);
+  font-size: 1.09rem;
+  line-height: 1.35;
+  box-shadow: 0 2px 7px 0 rgba(60,80,120,0.07);
+  min-height: 56px;
+  max-width: 680px;
+  width: 100%;
 }
 
 /* Responsive layout */
@@ -121,23 +217,6 @@
     border-radius: 0 0 8px 8px;
     min-height: 28px;
   }
-}
-
-/* Desktop-specific for the bottom stats too */
-.frequency-stats {
-  border-top: 1.5px solid #e6edf5;
-  margin-top: 2rem;
-  background: #f2f6fd;
-  font-size: 1.04rem;
-  padding-bottom: 1.25rem;
-  padding-top: 1.22rem;
-}
-
-/* DemoTypingSpeed component styles */
-.demo-typing-speed {
-  transition: box-shadow .13s;
-}
-@media (max-width: 600px) {
   .demo-typing-speed {
     padding: 0.48em 0.37em;
     font-size: 0.97rem;
@@ -147,6 +226,7 @@
     min-height: 48px;
   }
 }
+
 @keyframes demo-blink {
   0%, 70% { opacity: 1; }
   71%, 100% { opacity: 0; }

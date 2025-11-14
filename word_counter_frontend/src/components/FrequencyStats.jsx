@@ -78,7 +78,7 @@ export default function FrequencyStats({ text }) {
       aria-live="polite"
       aria-atomic="true"
       style={{
-        background: "#f2f6fd",
+        background: "var(--color-surface-alt)",
         borderTop: "1.5px solid #e6edf5",
         borderRadius: "0 0 16px 16px",
         margin: "2rem -1.5rem -2rem -1.5rem",
@@ -95,13 +95,13 @@ export default function FrequencyStats({ text }) {
       data-testid="frequency-stats"
     >
       <span>
-        <strong style={{ color: "#3b82f6" }}>Most used word: </strong>
+        <strong style={{ color: "var(--color-primary)" }}>Most used word: </strong>
         <span
           data-testid="stat-most-word"
           style={{
             fontFamily: "monospace",
             fontWeight: "bold",
-            color: word ? "#111827" : "#a0aec0",
+            color: word ? "var(--color-text)" : "#a0aec0",
             marginLeft: "0.35em",
           }}
         >
@@ -109,13 +109,13 @@ export default function FrequencyStats({ text }) {
         </span>
       </span>
       <span>
-        <strong style={{ color: "#06b6d4" }}>Most used letter: </strong>
+        <strong style={{ color: "var(--color-accent)" }}>Most used letter: </strong>
         <span
           data-testid="stat-most-letter"
           style={{
             fontFamily: "monospace",
             fontWeight: "bold",
-            color: letter ? "#111827" : "#a0aec0",
+            color: letter ? "var(--color-text)" : "#a0aec0",
             marginLeft: "0.35em",
           }}
         >

@@ -94,11 +94,11 @@ export default function DemoTypingSpeed({
         gap: "1.1rem",
         marginBottom: "1.1rem",
         justifyContent: "center",
-        background: "var(--background, #f9fafb)",
+        background: "var(--color-bg)",
         borderRadius: "12px",
         border: "1.5px solid #e1e8f2",
         padding: "0.76em 1.15em",
-        color: "#111827",
+        color: "var(--color-text)",
         fontSize: "1.09rem",
         lineHeight: 1.35,
         boxShadow: "0 2px 7px 0 rgba(60,80,120,0.07)",
@@ -116,7 +116,7 @@ export default function DemoTypingSpeed({
           fontFamily: "monospace",
           fontWeight: 500,
           fontSize: "1.08em",
-          color: "#3b82f6",
+          color: "var(--color-primary)",
           letterSpacing: "0.01em",
           minWidth: "19ch",
           background: "none",
@@ -147,13 +147,13 @@ export default function DemoTypingSpeed({
         <span
           data-testid="demo-wpm"
           style={{
-            background: "#3b82f615",
-            color: "#3b82f6",
+            background: "color-mix(in srgb, var(--color-primary) 10%, transparent)",
+            color: "var(--color-primary)",
             borderRadius: "9px",
             padding: "0.38em 0.9em",
             fontWeight: 600,
             fontSize: "0.97em",
-            border: "1.1px solid #3b82f622",
+            border: "1.1px solid color-mix(in srgb, var(--color-primary) 15%, transparent)",
           }}
           aria-label={`Current WPM: ${liveWpm}`}
         >
@@ -162,13 +162,13 @@ export default function DemoTypingSpeed({
         <span
           data-testid="demo-cpm"
           style={{
-            background: "#06b6d415",
-            color: "#06b6d4",
+            background: "color-mix(in srgb, var(--color-accent) 10%, transparent)",
+            color: "var(--color-accent)",
             borderRadius: "9px",
             padding: "0.38em 0.7em",
             fontWeight: 600,
             fontSize: "0.97em",
-            border: "1.1px solid #06b6d422",
+            border: "1.1px solid color-mix(in srgb, var(--color-accent) 15%, transparent)",
           }}
           aria-label={`Current CPM: ${liveCpm}`}
         >
@@ -177,13 +177,13 @@ export default function DemoTypingSpeed({
         <span
           data-testid="demo-elapsed"
           style={{
-            color: "#64748b",
-            background: "#f3f4fa",
+            color: "var(--color-secondary)",
+            background: "var(--color-surface-alt)",
             borderRadius: "9px",
             padding: "0.31em 0.7em",
             fontWeight: 500,
             fontSize: "0.94em",
-            border: "1px solid #e5e7eb",
+            border: "1px solid var(--color-border)",
           }}
           aria-label={`Typing time elapsed: ${Math.floor(elapsedMs/1000)} seconds`}
         >

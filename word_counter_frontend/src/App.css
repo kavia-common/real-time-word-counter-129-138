@@ -132,3 +132,22 @@
   padding-bottom: 1.25rem;
   padding-top: 1.22rem;
 }
+
+/* DemoTypingSpeed component styles */
+.demo-typing-speed {
+  transition: box-shadow .13s;
+}
+@media (max-width: 600px) {
+  .demo-typing-speed {
+    padding: 0.48em 0.37em;
+    font-size: 0.97rem;
+    border-radius: 0.7rem;
+    max-width: 98vw;
+    margin: 0 0.1em 0.7em 0.1em;
+    min-height: 48px;
+  }
+}
+@keyframes demo-blink {
+  0%, 70% { opacity: 1; }
+  71%, 100% { opacity: 0; }
+}

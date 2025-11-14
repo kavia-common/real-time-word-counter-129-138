@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react';
 import './App.css';
 import FrequencyStats from './components/FrequencyStats.jsx';
-
+import DemoTypingSpeed from './components/DemoTypingSpeed.jsx';
 // PUBLIC_INTERFACE
 function countWords(text) {
   /** Robust word counter for the word counter app.
@@ -88,6 +88,8 @@ function App() {
             }}>
             Real-time Word Counter
           </header>
+          {/* DemoTypingSpeed component */}
+          <DemoTypingSpeed />
           <label htmlFor="word-counter-textarea"
                  style={{
                    fontWeight: 600,

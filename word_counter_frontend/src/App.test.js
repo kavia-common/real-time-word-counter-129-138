@@ -1,6 +1,8 @@
 import { render, screen, fireEvent, within } from '@testing-library/react';
 import App from './App';
 import { getMostUsedWordAndLetter } from './components/FrequencyStats';
+import DemoTypingSpeed from './components/DemoTypingSpeed.jsx';
+import { act } from "react-dom/test-utils"; // for fake timers
 
 test('renders main counter UI and updates counts', () => {
   render(<App />);
@@ -81,6 +83,46 @@ test('most used word and letter stats appear and update live', () => {
   fireEvent.change(textarea, { target: { value: "Alpha! Beta, alpha. ALPHA; beta?" } });
   expect(screen.getByTestId('stat-most-word')).toHaveTextContent('alpha');
   expect(screen.getByTestId('stat-most-letter')).toHaveTextContent('a');
+});
+
+test('renders DemoTypingSpeed and updates metrics', () => {
+  jest.useFakeTimers();
+  const sample = "Test speed!";
+  render(<DemoTypingSpeed sampleText={sample} typingSpeed={60} />);
+  
+  // Typing region and initial metrics
+  const typingText = screen.getByTestId("demo-typing-text");
+  const wpm = screen.getByTestId("demo-wpm");
+  const cpm = screen.getByTestId("demo-cpm");
+  const elapsed = screen.getByTestId("demo-elapsed");
+  expect(typingText.textContent.length).toBe(0); // starts blank
+  expect(wpm).toHaveTextContent("WPM");
+  expect(cpm).toHaveTextContent("CPM");
+  expect(elapsed).toHaveTextContent("0s");
+
+  // Simulate animation for 4 chars, check cursor and metrics >0
+  act(() => {
+    jest.advanceTimersByTime(280 * 4); // about 4 chars worth at 60wpm
+  });
+  expect(typingText.textContent.length).toBeGreaterThan(0);
+  expect(wpm.textContent).toMatch(/WPM: \d+/);
+  expect(cpm.textContent).toMatch(/CPM: \d+/);
+  expect(Number(elapsed.textContent.replace('s', ''))).toBeGreaterThanOrEqual(0);
+
+  // Full sentence finished: metrics peak, cursor gone
+  act(() => {
+    jest.advanceTimersByTime(10000); // finish complete typing+pause
+  });
+  expect(typingText.textContent).toMatch(sample);
+  expect(screen.getByTestId("demo-cursor").style.display).toBe("none");
+
+  // Animation loops resets to 0 after pause
+  act(() => {
+    jest.advanceTimersByTime(2000);
+  });
+  expect(typingText.textContent.length).toBeLessThan(sample.length + 1);
+
+  jest.useRealTimers();
 });
 
 test('getMostUsedWordAndLetter utility handles edge cases', () => {

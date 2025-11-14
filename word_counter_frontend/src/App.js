@@ -2,6 +2,7 @@ import React, { useState, useRef } from 'react';
 import './App.css';
 import FrequencyStats from './components/FrequencyStats.jsx';
 import DemoTypingSpeed from './components/DemoTypingSpeed.jsx';
+import Sidebar from './components/Sidebar.jsx';
 
 // PUBLIC_INTERFACE
 function countWords(text) {
@@ -55,13 +56,15 @@ function App() {
 
   return (
     <div className="word-counter-app">
-      <main aria-label="Word Counter Application" style={{ width: '100%', padding: 'var(--space-6) 0' }}>
-        <section className="counter-card">
-          <header className="counter-header">
-            Real-time Word Counter
-          </header>
-          {/* DemoTypingSpeed component */}
-          <DemoTypingSpeed />
+      <div className="layout">
+        <Sidebar />
+        <main aria-label="Word Counter Application" style={{ width: '100%' }}>
+          <section className="counter-card">
+            <header className="counter-header">
+              Real-time Word Counter
+            </header>
+            {/* DemoTypingSpeed component */}
+            <DemoTypingSpeed />
 
           <label
             htmlFor="word-counter-textarea"
@@ -141,15 +144,16 @@ function App() {
           {/* Bottom frequency stats section */}
           <FrequencyStats text={text} />
 
-          <footer className="footer-hint">
-            <span>
-              <span className="footer-title">Word Counter</span> •{' '}
-              <span className="footer-theme">Light theme</span> •
-              <span className="visually-hidden">All counts update automatically as you type.</span>
-            </span>
-          </footer>
-        </section>
-      </main>
+            <footer className="footer-hint">
+              <span>
+                <span className="footer-title">Word Counter</span> •{' '}
+                <span className="footer-theme">Light theme</span> •
+                <span className="visually-hidden">All counts update automatically as you type.</span>
+              </span>
+            </footer>
+          </section>
+        </main>
+      </div>
     </div>
   );
 }

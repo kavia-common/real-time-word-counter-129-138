@@ -32,10 +32,134 @@
   min-height: 100vh;
   background: var(--color-bg);
   font-family: inherit;
+  /* Now handled by .layout */
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+}
+
+/* Responsive main layout: sidebar + card side by side or stacked */
+.layout {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: flex-start;
+  width: 100%;
+  gap: var(--space-6);
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: var(--space-6) 0;
+}
+
+@media (max-width: 800px) {
+  .layout {
+    flex-direction: column;
+    gap: var(--space-2);
+    align-items: stretch;
+    padding: var(--space-2) 0;
+  }
+}
+
+/* Sidebar styles */
+.sidebar-panel {
+  background: var(--color-surface);
+  border-radius: 1.1rem;
+  box-shadow: 0 2px 14px 0 rgba(60,80,120,0.07);
+  min-width: 220px;
+  max-width: 270px;
+  width: 22vw;
+  margin-top: 0.3rem;
+  margin-bottom: 0.3rem;
+  animation: sidebar-fadein var(--motion-medium) var(--motion-ease) forwards;
+  opacity: 0;
+  transform: translateY(16px) scale(0.99);
+  transition: box-shadow var(--motion-fast) var(--motion-ease), background var(--motion-fast);
+}
+@keyframes sidebar-fadein {
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.sidebar-panel:focus {
+  outline: 2px solid var(--color-primary);
+}
+
+/* Stack on mobile, or subtle divider bar at top */
+@media (max-width: 800px) {
+  .sidebar-panel {
+    width: 100%;
+    min-width: 0;
+    max-width: 100vw;
+    margin: 0 0 0.5rem 0;
+    padding-bottom: var(--space-2);
+    border-radius: 0.7rem 0.7rem 0.5rem 0.5rem;
+    border-bottom: 1.5px solid #e8ebf1;
+    box-shadow: none;
+    animation: sidebar-fadein var(--motion-medium) var(--motion-ease) forwards;
+  }
+}
+
+/* Sidebar header/title */
+.sidebar-header {
+  font-size: 1.13rem;
+  font-weight: 700;
+  padding: var(--space-3) var(--space-3) var(--space-2) var(--space-3);
+  background: linear-gradient(90deg, var(--color-primary)10 0%, #f3f4f6 100%);
+  color: var(--color-primary);
+  border-radius: 1.1rem 1.1rem 0 0;
+  letter-spacing: -0.5px;
+  margin-bottom: 0.32rem;
+}
+
+.sidebar-list {
+  list-style: none;
+  margin: 0;
+  padding: 0 var(--space-3) var(--space-3) var(--space-3);
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.sidebar-list-item {
+  font-size: 1.01rem;
+  color: var(--color-secondary);
+  border-radius: 7px;
+  padding: var(--space-2) var(--space-1);
+  transition:
+    background var(--motion-fast) var(--motion-ease),
+    color var(--motion-fast) var(--motion-ease);
+  /* Subtle fade: no interactivity */
+  user-select: none;
+  outline: none;
+  /* Only hover effect */
+}
+.sidebar-list-item:hover, .sidebar-list-item:focus-visible {
+  background: color-mix(in srgb, var(--color-primary) 10%, transparent);
+  color: var(--color-primary);
+  cursor: default;
+  /* No pointer events for non-interactive */
+}
+
+@media (max-width: 600px) {
+  .sidebar-header {
+    padding: var(--space-2) var(--space-2) var(--space-1) var(--space-2);
+    font-size: 1.01rem;
+    border-radius: 0.7rem 0.7rem 0 0;
+    margin-bottom: 0.22rem;
+  }
+  .sidebar-list {
+    padding: 0 var(--space-2) var(--space-2) var(--space-2);
+    gap: 0.15rem;
+  }
+  .sidebar-panel {
+    border-radius: 0.7rem 0.7rem 0.5rem 0.5rem;
+    min-width: 0;
+    max-width: 100vw;
+    margin: 0;
+    border-bottom: 1.2px solid #e8ebf1;
+  }
 }
 
 /* Card (main container) */

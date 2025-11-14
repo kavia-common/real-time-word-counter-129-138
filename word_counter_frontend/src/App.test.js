@@ -9,6 +9,29 @@ test('renders main counter UI and updates counts', () => {
   // Heading exists
   expect(screen.getByText(/real-time word counter/i)).toBeInTheDocument();
 
+});
+
+// Sidebar specific test: renders and shows at least 5 static, non-interactive items
+test('Sidebar renders a list of view-only options (non-interactive)', () => {
+  render(<App />);
+  const nav = screen.getByRole('navigation', { name: /sidebar options/i });
+  expect(nav).toBeInTheDocument();
+
+  // Sidebar header present
+  expect(within(nav).getByText(/options/i)).toBeInTheDocument();
+
+  // Has a list with at least 5 items
+  const items = within(nav).getAllByRole('listitem');
+  expect(items.length).toBeGreaterThanOrEqual(5);
+  // Each list item should not be interactive (no aria/href/tabindex=0)
+  items.forEach((li) => {
+    expect(li).not.toHaveAttribute('onclick');
+    expect(li).not.toHaveAttribute('onClick');
+    expect(li).toHaveAttribute('aria-disabled', 'true');
+    // Tabindex -1 = not focusable
+    expect(li).toHaveAttribute('tabindex', '-1');
+  });
+});
   // Textarea exists and has correct label
   const textarea = screen.getByLabelText(/text to analyze/i);
   expect(textarea).toBeInTheDocument();

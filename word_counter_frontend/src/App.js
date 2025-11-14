@@ -3,6 +3,7 @@ import './App.css';
 import FrequencyStats from './components/FrequencyStats.jsx';
 import DemoTypingSpeed from './components/DemoTypingSpeed.jsx';
 import Sidebar from './components/Sidebar.jsx';
+import UtilityTips from './components/UtilityTips.jsx';
 
 // PUBLIC_INTERFACE
 function countWords(text) {
@@ -112,6 +113,9 @@ function App() {
               {copied ? 'Copied!' : 'Copy'}
             </button>
           </div>
+
+          {/* UtilityTips: immediately below textarea+actions, above frequency stats */}
+          <UtilityTips text={text} />
 
           <div aria-live="polite" aria-atomic="true"
                className="counter-stats-row"

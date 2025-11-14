@@ -449,8 +449,79 @@
   transform: translateY(14px) scale(.98);
   animation: frequency-stats-in var(--motion-slow) .19s ease forwards;
 }
+
+/* UtilityTips: Animation, Responsive, Contrast, Buttons */
+.utility-tips-card {
+  animation: utility-tips-fadein var(--motion-medium, 0.28s) var(--motion-ease, cubic-bezier(0.45,0.03,0.47,1.0)) forwards;
+  opacity: 0;
+  transform: translateY(16px) scale(0.98);
+  min-width: 0;
+  background: var(--color-surface-alt);
+  border-radius: 9px;
+  box-shadow: 0 1px 9px 0 rgba(60,80,120,0.09);
+  color: var(--color-text);
+}
+@keyframes utility-tips-fadein {
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.utility-tips-card h2,
+.utility-tips-card h3 {
+  color: var(--color-primary);
+  margin: 0 0 0.1em 0;
+}
+.utility-tips-card h3 {
+  color: var(--color-accent);
+  font-size: 1em;
+  font-weight: 600;
+}
+.utility-tips-card button[aria-expanded] {
+  background: none;
+  border: none;
+  color: var(--color-primary);
+  font-weight: 600;
+  font-size: 0.97em;
+  padding: 0;
+  cursor: pointer;
+  border-radius: 4px;
+  outline: none;
+  margin-bottom: 0.06em;
+  text-align: left;
+  transition: color var(--motion-fast, .15s) var(--motion-ease), outline var(--motion-fast, .15s);
+}
+.utility-tips-card button[aria-expanded="true"] {
+  outline: 2px solid var(--color-accent);
+  color: var(--color-accent);
+}
+.utility-tips-card code {
+  font-family: inherit;
+  background: none;
+  color: var(--color-secondary);
+  white-space: pre-line;
+}
+.utility-tips-card ul, .utility-tips-card ol {
+  padding-left: 0;
+  margin-left: 0;
+  list-style: none;
+}
+
+@media (max-width: 650px) {
+  .utility-tips-card {
+    padding: var(--space-3) var(--space-1);
+    border-radius: 0.6rem;
+    margin-bottom: var(--space-2);
+    margin-top: var(--space-1);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
-  .frequency-stats { animation: none !important; }
+  .frequency-stats,
+  .utility-tips-card {
+    animation: none !important;
+    transition: none !important;
+  }
 }
 @keyframes frequency-stats-in {
   to {

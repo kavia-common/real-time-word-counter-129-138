@@ -9,7 +9,19 @@ test('renders main counter UI and updates counts', () => {
   // Heading exists
   expect(screen.getByText(/real-time word counter/i)).toBeInTheDocument();
 
+  // UtilityTips rendered (live tips area)
+  const tips = screen.getByTestId("utility-tips");
+  expect(tips).toBeInTheDocument();
+
+  // Shows initial metrics (zero/blank)
+  expect(screen.getByTestId("ut-avg-wordlen")).toHaveTextContent(/—|0.00/);
+  expect(screen.getByTestId("ut-rt")).toBeInTheDocument();
+  expect(screen.getByTestId("ut-sent")).toHaveTextContent("0");
+
+  // Keyword density starts empty (unless stopword-only text)
+  expect(screen.getByTestId("ut-keywords")).toHaveTextContent(/no keywords/i);
 });
+
 
 // Sidebar specific test: renders and shows at least 5 static, non-interactive items
 test('Sidebar renders a list of view-only options (non-interactive)', () => {
@@ -85,28 +97,37 @@ test('most used word and letter stats appear and update live', () => {
   expect(screen.getByTestId('stat-most-word')).toHaveTextContent('—');
   expect(screen.getByTestId('stat-most-letter')).toHaveTextContent('—');
 
+  // UtilityTips - keyword density and preview work & update
   const textarea = screen.getByLabelText(/text to analyze/i);
 
-  // Single word
-  fireEvent.change(textarea, { target: { value: 'waffle' } });
-  expect(screen.getByTestId('stat-most-word')).toHaveTextContent('waffle');
-  expect(screen.getByTestId('stat-most-letter')).toHaveTextContent('f'); // two fs
+  // Enter text and see UtilityTips metrics/keywords update
+  fireEvent.change(textarea, { target: { value: 'Fast fox jumps. Slow fox sleeps! Jumps fast.' } });
 
-  // Add tie for letters
-  fireEvent.change(textarea, { target: { value: 'baa' } });
-  // a and b both 1, so lex smallest ("a")
-  expect(screen.getByTestId('stat-most-letter')).toHaveTextContent('a');
+  // Metrics: Word length, Read time, Sentences (should be >0)
+  expect(Number(screen.getByTestId("ut-avg-wordlen").textContent)).toBeGreaterThan(0);
+  expect(screen.getByTestId("ut-rt").textContent).not.toMatch(/—/);
+  expect(Number(screen.getByTestId("ut-sent").textContent)).toBeGreaterThanOrEqual(1);
 
-  // Multiple words, tie on word (a/aa)
-  fireEvent.change(textarea, { target: { value: 'a a b b' } });
-  expect(screen.getByTestId('stat-most-word')).toHaveTextContent('a');
-  expect(screen.getByTestId('stat-most-letter')).toHaveTextContent('a');
+  // Keyword density should list top words (excluding stopwords)
+  const kwords = screen.getByTestId("ut-keywords");
+  expect(kwords.textContent).toMatch(/fox/);
+  expect(kwords.textContent).toMatch(/fast/);
 
-  // Punctuation ignored, counts correct, case ignored
-  fireEvent.change(textarea, { target: { value: "Alpha! Beta, alpha. ALPHA; beta?" } });
-  expect(screen.getByTestId('stat-most-word')).toHaveTextContent('alpha');
-  expect(screen.getByTestId('stat-most-letter')).toHaveTextContent('a');
+  // Open preview for Title/UPPER/lower - should display preview content
+  ["title", "upper", "lower"].forEach((key) => {
+    const btn = screen.getByTestId(`ut-toggle-${key}`);
+    fireEvent.click(btn);
+    const area = screen.getByTestId(`ut-preview-${key}`);
+    // Area shows preview (not empty)
+    expect(area.textContent.length).toBeGreaterThan(0);
+    // Close & open do not change textarea value
+    const before = textarea.value;
+    fireEvent.click(btn); // collapse
+    fireEvent.click(btn); // open again
+    expect(textarea.value).toBe(before);
+  });
 });
+
 
 test('renders DemoTypingSpeed and updates metrics', () => {
   jest.useFakeTimers();

@@ -1,82 +1,65 @@
-# Lightweight React Template for KAVIA
+# Real-time Word Counter React App
 
-This project provides a minimal React template with a clean, modern UI and minimal dependencies.
+A modern single-page React app for counting words, characters, and lines as you type. Paste or write text and see live updates in a beautiful, accessible UI.
+
+---
 
 ## Features
 
-- **Lightweight**: No heavy UI frameworks - uses only vanilla CSS and React
-- **Modern UI**: Clean, responsive design with KAVIA brand styling
-- **Fast**: Minimal dependencies for quick loading times
-- **Simple**: Easy to understand and modify
+- **Live word, char, and line counting** with robust tokenization
+- Single, centered responsive card with gradient header
+- **Copy to clipboard** and **Clear** buttons with instant feedback
+- Accessible (`aria-label`s, aria-live, color contrast)
+- Stylish light theme, soft shadows, and color accents (`#3b82f6`, `#06b6d4`, `#f9fafb`)
+- Mobile-friendly, adjusts layout for all devices
+- No backend, no API keys, no env vars needed
 
-## Getting Started
+## Usage
 
-In the project directory, you can run:
+1. Start the app locally:
 
-### `npm start`
+   ```
+   npm install
+   npm start
+   ```
 
-Runs the app in development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+2. Visit [http://localhost:3000](http://localhost:3000).
 
-### `npm test`
+3. Type or paste into the textarea. The stats will update live:
+   - **Words**: Sequences of letters or numbers (not just whitespace splits)
+   - **Chars**: All characters
+   - **No spaces**: Excludes whitespace from char count
+   - **Lines**: Line breaks detected
 
-Launches the test runner in interactive watch mode.
+4. Use the "Clear" or "Copy" buttons.
+   - *Copy* places text on clipboard and flashes "Copied!"
 
-### `npm run build`
+5. Fully responsive: Try on phone and desktop.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Accessibility
 
-## Customization
+- Textarea has a visible label and `aria-label`
+- Stats update in a polite `aria-live` region
+- Good color contrast for readability
+- Keyboard accessible: Tab to all buttons/fields.
 
-### Colors
+## Technical Notes
 
-The main brand colors are defined as CSS variables in `src/App.css`:
+- Uses only React + vanilla CSS (no Tailwind or extra UI libs).
+- All theme/colors in `src/App.css`:  
+    - `--primary: #3b82f6`, `--success: #06b6d4`, `--background: #f9fafb`, `--text: #111827` etc.
+- `src/App.js` contains all logic and UI.  
+- Minimal, robust `countWords` handles apostrophe/dashes and real "words".
 
-```css
-:root {
-  --kavia-orange: #E87A41;
-  --kavia-dark: #1A1A1A;
-  --text-color: #ffffff;
-  --text-secondary: rgba(255, 255, 255, 0.7);
-  --border-color: rgba(255, 255, 255, 0.1);
-}
-```
+## Testing
 
-### Components
+- Minimal Jest/RTL test for main functionality.
+- Run tests:  
+  ```
+  npm test
+  ```
 
-This template uses pure HTML/CSS components instead of a UI framework. You can find component styles in `src/App.css`. 
+---
 
-Common components include:
-- Buttons (`.btn`, `.btn-large`)
-- Container (`.container`)
-- Navigation (`.navbar`)
-- Typography (`.title`, `.subtitle`, `.description`)
+**MIT License**
 
-## Learn More
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)

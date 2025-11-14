@@ -4,6 +4,62 @@ import { getMostUsedWordAndLetter } from './components/FrequencyStats';
 import DemoTypingSpeed from './components/DemoTypingSpeed.jsx';
 import { act } from "react-dom/test-utils"; // for fake timers
 
+// ---- MOCK QUOTE API at top-level, so applies to all widget tests ----
+jest.mock("./api/api", () => ({
+  getRandomQuote: jest.fn().mockResolvedValue({ text: "Test quote.", author: "Test Author" }),
+}));
+import { getRandomQuote } from "./api/api";
+
+// -----
+// --- QuoteWidget tests ---
+// Helper for waiting for quote load in tests
+async function waitForQuoteText() {
+  // Use findByTestId async to wait for update
+  return await screen.findByTestId("quote-text");
+}
+
+test("QuoteWidget renders a quote on initial render", async () => {
+  render(<App />);
+  // Should display QuoteWidget's initial quote (mocked)
+  const qText = await screen.findByTestId("quote-text");
+  expect(qText).toHaveTextContent("Test quote.");
+  expect(qText).toHaveTextContent("Test Author");
+});
+
+test("Clicking 'New Quote' fetches a new quote", async () => {
+  render(<App />);
+  await waitForQuoteText();
+  getRandomQuote.mockResolvedValueOnce({ text: "Another quote!", author: "New Author" });
+  const btn = screen.getByTestId("quote-btn");
+  fireEvent.click(btn);
+  // Loading state
+  expect(btn).toHaveTextContent(/fetching/i);
+  // New quote should appear
+  const qText = await screen.findByTestId("quote-text");
+  expect(qText).toHaveTextContent("Another quote!");
+  expect(qText).toHaveTextContent("New Author");
+});
+
+test("QuoteWidget handles API failure gracefully and shows fallback", async () => {
+  getRandomQuote.mockImplementationOnce(() => Promise.resolve({
+    text: "Creativity is intelligence having fun.",
+    author: "Albert Einstein"
+  }));
+  render(<App />);
+  const qText = await screen.findByTestId("quote-text");
+  expect(qText).toHaveTextContent("Creativity is intelligence having fun.");
+  expect(qText).toHaveTextContent("Albert Einstein");
+});
+
+test("QuoteWidget handles unexpected API error", async () => {
+  getRandomQuote.mockImplementationOnce(() => Promise.reject("fail"));
+  render(<App />);
+  const errorText = await screen.findByTestId("quote-error");
+  expect(errorText).toHaveTextContent(/couldn't fetch/i);
+});
+
+// -----
+
 test('renders main counter UI and updates counts', () => {
   render(<App />);
   // Heading exists

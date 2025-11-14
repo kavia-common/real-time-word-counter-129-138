@@ -404,6 +404,59 @@
   display: block;
 }
 
+/* --- QuoteWidget styles --- */
+.quote-widget-container {
+  background: var(--color-surface-alt);
+  border-radius: 11px;
+  box-shadow: 0 1.5px 8px 0 rgba(60,80,120,0.07);
+  margin-bottom: var(--space-5);
+  margin-top: var(--space-2);
+  padding: 1.2rem 1.1rem 1.04rem 1.1rem;
+  max-width: 480px;
+  width: 100%;
+  align-self: center;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  position: relative;
+  min-height: 98px;
+}
+
+.quote-widget-quote {
+  min-height: 38px;
+  font-size: 1.15rem;
+  font-weight: 500;
+  letter-spacing: -0.4px;
+  color: var(--color-text);
+  margin-bottom: 0.6rem;
+  display: flex;
+  align-items: center;
+  gap: 0.45em;
+}
+
+/* Loading shimmer animation for quote (reuses @keyframes, .quote-widget-loading present inline style) */
+.quote-widget-loading {
+  display: inline-block;
+  width: 1.5em;
+  height: 1.22em;
+  border-radius: 6px;
+  background: linear-gradient(90deg, #e8eef9 25%, #e2f2fa 50%, #f5f8fb 75%);
+  background-size: 200% 100%;
+  animation: quote-shimmer 1.2s linear infinite;
+}
+
+/* Error state */
+.quote-widget-error {
+  color: var(--color-error);
+  font-size: 1em;
+}
+
+@keyframes quote-shimmer {
+  0% { background-position: -1em 0; }
+  100% { background-position: 2em 0; }
+}
+
+
 .footer-hint {
   font-size: 0.93rem;
   color: var(--color-secondary);

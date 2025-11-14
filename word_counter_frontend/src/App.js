@@ -4,6 +4,7 @@ import FrequencyStats from './components/FrequencyStats.jsx';
 import DemoTypingSpeed from './components/DemoTypingSpeed.jsx';
 import Sidebar from './components/Sidebar.jsx';
 import UtilityTips from './components/UtilityTips.jsx';
+import QuoteWidget from './components/QuoteWidget.jsx';
 
 // PUBLIC_INTERFACE
 function countWords(text) {
@@ -66,6 +67,8 @@ function App() {
             </header>
             {/* DemoTypingSpeed component */}
             <DemoTypingSpeed />
+            {/* Demo QuoteWidget - motivational/inspirational quote */}
+            <QuoteWidget />
 
           <label
             htmlFor="word-counter-textarea"

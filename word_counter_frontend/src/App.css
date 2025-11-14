@@ -112,4 +112,23 @@
   .counter-stats-row {
     gap: 0.5rem;
   }
+  .frequency-stats {
+    flex-direction: column;
+    gap: 0.5rem;
+    font-size: 0.97rem;
+    padding: 0.85rem 0.3rem 1.0rem 0.3rem;
+    margin: 1.1rem -0.7rem -1.5rem -0.7rem;
+    border-radius: 0 0 8px 8px;
+    min-height: 28px;
+  }
+}
+
+/* Desktop-specific for the bottom stats too */
+.frequency-stats {
+  border-top: 1.5px solid #e6edf5;
+  margin-top: 2rem;
+  background: #f2f6fd;
+  font-size: 1.04rem;
+  padding-bottom: 1.25rem;
+  padding-top: 1.22rem;
 }

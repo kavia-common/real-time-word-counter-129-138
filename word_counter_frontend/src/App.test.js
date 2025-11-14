@@ -1,5 +1,6 @@
 import { render, screen, fireEvent, within } from '@testing-library/react';
 import App from './App';
+import { getMostUsedWordAndLetter } from './components/FrequencyStats';
 
 test('renders main counter UI and updates counts', () => {
   render(<App />);
@@ -52,3 +53,62 @@ test('clipboard copy sets Copied! then resets', async () => {
   // "Copied!" temporary text visible
   expect(copyBtn).toHaveTextContent('Copied');
 });
+
+test('most used word and letter stats appear and update live', () => {
+  render(<App />);
+  // Initially blank = both em dash
+  expect(screen.getByTestId('stat-most-word')).toHaveTextContent('—');
+  expect(screen.getByTestId('stat-most-letter')).toHaveTextContent('—');
+
+  const textarea = screen.getByLabelText(/text to analyze/i);
+
+  // Single word
+  fireEvent.change(textarea, { target: { value: 'waffle' } });
+  expect(screen.getByTestId('stat-most-word')).toHaveTextContent('waffle');
+  expect(screen.getByTestId('stat-most-letter')).toHaveTextContent('f'); // two fs
+
+  // Add tie for letters
+  fireEvent.change(textarea, { target: { value: 'baa' } });
+  // a and b both 1, so lex smallest ("a")
+  expect(screen.getByTestId('stat-most-letter')).toHaveTextContent('a');
+
+  // Multiple words, tie on word (a/aa)
+  fireEvent.change(textarea, { target: { value: 'a a b b' } });
+  expect(screen.getByTestId('stat-most-word')).toHaveTextContent('a');
+  expect(screen.getByTestId('stat-most-letter')).toHaveTextContent('a');
+
+  // Punctuation ignored, counts correct, case ignored
+  fireEvent.change(textarea, { target: { value: "Alpha! Beta, alpha. ALPHA; beta?" } });
+  expect(screen.getByTestId('stat-most-word')).toHaveTextContent('alpha');
+  expect(screen.getByTestId('stat-most-letter')).toHaveTextContent('a');
+});
+
+test('getMostUsedWordAndLetter utility handles edge cases', () => {
+  // Only punctuation and spaces
+  expect(getMostUsedWordAndLetter('.,!?{}[]   " \' ')).toEqual({ word: null, letter: null });
+
+  // Handles hyphenated words as words, not splitting inside hyphens
+  expect(getMostUsedWordAndLetter('strong-will strong-will weak')).toEqual({
+    word: 'strong-will',
+    letter: 'l',
+  });
+
+  // Tie-breaking, with digits and lex order
+  expect(getMostUsedWordAndLetter('2 1 1 2 3!')).toEqual({ word: '1', letter: '1' });
+
+  // Remove punctuation at edges only
+  expect(getMostUsedWordAndLetter('!foo! "foo", foo.')).toEqual({ word: 'foo', letter: 'o' });
+
+  // Ignore non-ascii letters for letter most count
+  expect(getMostUsedWordAndLetter('中文 中文 chinese chinese CHINESE')).toEqual({
+    word: 'chinese',
+    letter: 'c',
+  });
+
+  // Emojis and spaces, should ignore for letter
+  expect(getMostUsedWordAndLetter('🦄 🦄 🦄 a a ab')).toEqual({ word: 'a', letter: 'a' });
+
+  // Upper and lower case treat as same
+  expect(getMostUsedWordAndLetter('Bob bob BOB, alice Alice')).toEqual({ word: 'bob', letter: 'b' });
+});
+

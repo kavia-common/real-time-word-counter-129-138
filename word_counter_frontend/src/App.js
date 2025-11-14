@@ -1,5 +1,6 @@
 import React, { useState, useRef } from 'react';
 import './App.css';
+import FrequencyStats from './components/FrequencyStats.jsx';
 
 // PUBLIC_INTERFACE
 function countWords(text) {
@@ -207,6 +208,9 @@ function App() {
               testid="stat-lines"
             />
           </div>
+          {/* Bottom frequency stats section */}
+          <FrequencyStats text={text} />
+
           <footer style={{
             fontSize: '0.93rem',
             color: '#64748b',

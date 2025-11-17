@@ -1,0 +1,79 @@
+.button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.6rem 1rem;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,0.25);
+  background: linear-gradient(135deg, rgba(255,255,255,0.22), rgba(255,255,255,0.08));
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  color: #0f172a;
+  text-shadow: 0 1px 0 rgba(255,255,255,0.3);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.08), inset 0 1px 0 rgba(255,255,255,0.25);
+  transition: transform 0.08s ease, box-shadow 0.2s ease, background 0.2s ease;
+  font-weight: 600;
+  font-size: 1.09rem;
+  outline: none;
+  cursor: pointer;
+  user-select: none;
+  min-width: 78px;
+  min-height: 38px;
+  position: relative;
+}
+
+.button:not(:disabled):hover, .button:not(:disabled):focus-visible {
+  box-shadow: 0 14px 36px 0 rgba(59,130,246,0.13),0 1.5px 12px 0 rgba(59,130,246,0.07), 0 2px 10px 0 rgba(59,130,246,0.14);
+  background: linear-gradient(135deg, rgba(59,130,246,0.09) 12%, rgba(255,255,255,0.16) 98%);
+  color: #2563eb;
+  outline: 2px solid #3b82f6;
+  outline-offset: 3px;
+  transform: translateY(-2px) scale(1.03);
+}
+
+.button:active:not(:disabled) {
+  transform: translateY(1px) scale(0.99);
+  box-shadow: 0 3px 8px 0 rgba(0,0,0,0.06);
+}
+
+.button:focus-visible {
+  outline: 2px solid #3b82f6;
+  outline-offset: 3px;
+  box-shadow: 0 0 0 4px #3b82f633;
+}
+
+.disabled,
+.button:disabled,
+.button[aria-disabled="true"] {
+  opacity: 0.56;
+  cursor: not-allowed;
+  pointer-events: none;
+  filter: grayscale(0.17) brightness(0.97);
+  box-shadow: none;
+  background: linear-gradient(135deg, rgba(255,255,255,0.15), rgba(220,220,233,0.07));
+}
+
+/* Spinner (loading) inline - 14px, primary color accent. */
+.spinner {
+  display: inline-block;
+  width: 1.1em;
+  height: 1.1em;
+  margin-right: 0.25em;
+  border-radius: 50%;
+  border: 2px solid rgba(59,130,246,0.16);
+  border-top: 2px solid #3b82f6;
+  animation: gbtn-spin 0.66s linear infinite;
+  vertical-align: middle;
+  pointer-events: none;
+}
+@keyframes gbtn-spin {
+  to { transform: rotate(360deg);}
+}
+
+/* Responsive - shrink padding/font size for smaller screens */
+@media (max-width: 600px) {
+  .button {
+    padding: 0.45rem 0.7rem;
+    font-size: 1rem;
+  }
+}

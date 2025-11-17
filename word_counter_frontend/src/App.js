@@ -7,6 +7,7 @@ import UtilityTips from './components/UtilityTips.jsx';
 import QuoteWidget from './components/QuoteWidget.jsx';
 import RandomWidget from './components/RandomWidget.jsx';
 import FloatingDock from './components/FloatingDock.jsx';
+import GlassButton from './components/GlassButton.jsx';
 import DailyDoseOfWord from './components/DailyDoseOfWord.jsx';
 import Navbar from './components/Navbar.jsx';
 import BottomDock from './components/BottomDock.jsx';
@@ -316,6 +317,26 @@ function App() {
       </div>
       {/* BottomDock appears global & overlays app bottom only */}
       <BottomDock />
+      {/* GlassButton Demo: non-intrusive footer showcase, outside style/layout */}
+      <div style={{
+        position: "fixed",
+        left: "28px",
+        bottom: "28px",
+        zIndex: 100,
+        pointerEvents: "auto",
+        background: "rgba(255,255,255,0.92)",
+        borderRadius: "14px",
+        boxShadow: "0 2px 10px 0 rgba(59,130,246,0.09)",
+        padding: "0.4em 1.1em",
+        minWidth: 0
+      }}
+        aria-label="GlassButton demo region"
+      >
+        <GlassButton
+          text="Click Me"
+          onClick={() => console.log("Clicked")}
+        />
+      </div>
       {/* Scoped style for modal button (reinforce modern/hover/focus a11y) */}
       <style>
         {`

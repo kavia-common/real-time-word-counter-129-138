@@ -8,6 +8,7 @@ import QuoteWidget from './components/QuoteWidget.jsx';
 import FloatingDock from './components/FloatingDock.jsx';
 import DailyDoseOfWord from './components/DailyDoseOfWord.jsx';
 import Navbar from './components/Navbar.jsx';
+import BottomDock from './components/BottomDock.jsx';
 
 // PUBLIC_INTERFACE
 function countWords(text) {
@@ -62,7 +63,11 @@ function App() {
   return (
     <>
       <Navbar />
-      <div className="word-counter-app" style={{ paddingTop: "64px" }}>
+      {/* 
+        Added bottom padding to ensure that BottomDock does not overlap. 
+        If BottomDock height changes, adjust the 88px value appropriately.
+      */}
+      <div className="word-counter-app" style={{ paddingTop: "64px", paddingBottom: "88px" }}>
         <FloatingDock />
         <div className="layout">
           <Sidebar />
@@ -171,6 +176,8 @@ function App() {
           </main>
         </div>
       </div>
+      {/* BottomDock appears global & overlays app bottom only */}
+      <BottomDock />
     </>
   );
 }

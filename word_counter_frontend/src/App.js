@@ -9,6 +9,8 @@ import FloatingDock from './components/FloatingDock.jsx';
 import DailyDoseOfWord from './components/DailyDoseOfWord.jsx';
 import Navbar from './components/Navbar.jsx';
 import BottomDock from './components/BottomDock.jsx';
+// PUBLIC_INTERFACE: AltActionButton opens modal (secondary color)
+import AltActionButton from './components/AltActionButton.jsx';
 import Modal from './components/Modal.jsx';
 
 // PUBLIC_INTERFACE
@@ -66,11 +68,10 @@ function App() {
   // Position: fixed, visible on all screens
   // Modern "info" icon look, primary color fill
   // Accessible: aria-label, tabIndex
-
   return (
     <>
       <Navbar />
-      {/* Fixed top-right modal open button */}
+      {/* Fixed top-right modal open buttons */}
       <button
         type="button"
         className="topright-modal-btn"
@@ -115,6 +116,8 @@ function App() {
           <rect x="11.13" y="10.14" width="1.73" height="6.2" rx="0.83" fill="#3b82f6"/>
         </svg>
       </button>
+      {/* AltActionButton immediately below the original, distinct color */}
+      <AltActionButton onClick={() => setIsModalOpen(true)} />
       <Modal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}

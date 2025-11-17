@@ -12,21 +12,21 @@ import Navbar from './components/Navbar.jsx';
 import BottomDock from './components/BottomDock.jsx';
 // PUBLIC_INTERFACE: AltActionButton opens modal (secondary color)
 import AltActionButton from './components/AltActionButton.jsx';
-import Modal from './components/Modal.jsx';
-import Header from './components/Header.jsx';
-import AccentDivider from './components/AccentDivider.jsx';
+import Modal from "./components/Modal.jsx";
+import Header from "./components/Header.jsx";
+import AccentDivider from "./components/AccentDivider.jsx";
 
-import { countWords } from './utils/text.js';
-import { formatNumberWithCommas } from './utils/number.js';
-// Note: The previously-inline countWords function is now refactored to use the reusable helper from utils/text.js.
-// If existing components elsewhere use their own word/char logic, replace with these imports for consistency (see __examples__/utils-usage.md).
+import { countWords } from "./utils/text.js";
+import { formatNumberWithCommas } from "./utils/number.js";
 
 // PUBLIC_INTERFACE
 function App() {
-  const [text, setText] = useState('');
+  const [text, setText] = useState("");
   const [copied, setCopied] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isDemoModalOpen, setIsDemoModalOpen] = useState(false);
   const textareaRef = useRef(null);
+  const modalActionBtnRef = useRef(null);
 
   const stats = countWords(text);
 
@@ -36,7 +36,7 @@ function App() {
   };
 
   const handleClear = () => {
-    setText('');
+    setText("");
     setCopied(false);
     textareaRef.current?.focus();
   };
@@ -51,15 +51,84 @@ function App() {
     }
   };
 
-  // Top-right modal open button
-  // Position: fixed, visible on all screens
-  // Modern "info" icon look, primary color fill
-  // Accessible: aria-label, tabIndex
+  // Demo example: button to show Modal component with all core props shown (in addition to the topright info modal)
+  // Positioned fixed at page bottom left, visually distinct, a11y labeled
+  // Keeps this usage minimal, does not interfere with original modal/info
   return (
     <>
       <Header />
       <Navbar />
-      {/* Fixed top-right modal open buttons */}
+      {/* Demo Modal Button - fixed bottom left */}
+      <button
+        type="button"
+        className="demo-open-modal-btn"
+        aria-label="Open reusable modal example"
+        ref={modalActionBtnRef}
+        onClick={() => setIsDemoModalOpen(true)}
+        style={{
+          position: "fixed",
+          left: "16px",
+          bottom: "102px",
+          zIndex: 1102,
+          background: "#fff",
+          color: "var(--color-primary)",
+          border: "1.7px solid #3b82f6",
+          borderRadius: "13px",
+          minWidth: "124px",
+          minHeight: "41px",
+          fontWeight: 600,
+          fontSize: "1.07rem",
+          boxShadow: "0 4px 22px 0 rgba(60,80,120,0.13)",
+          cursor: "pointer",
+          transition: "background 0.14s, box-shadow 0.13s, color 0.13s",
+        }}
+      >
+        Open Modal
+      </button>
+      <Modal
+        isOpen={isDemoModalOpen}
+        onClose={() => setIsDemoModalOpen(false)}
+        title={<span>Reusable Modal Demo</span>}
+        size="md"
+        showClose={true}
+        closeOnOverlay={true}
+        footer={
+          <button
+            className="counter-btn primary"
+            style={{ minWidth: "72px" }}
+            type="button"
+            onClick={() => setIsDemoModalOpen(false)}
+            aria-label="Close modal demo"
+            autoFocus // Ensures focus for demo
+          >
+            Close
+          </button>
+        }
+        initialFocusRef={null}
+        ariaLabel="Demo modal dialog"
+      >
+        <div style={{ color: "#111827", minWidth: 0 }}>
+          <p>
+            <b style={{ color: "#3b82f6" }}>This is a demo of the reusable Modal component.</b>
+            <br />
+            Features:
+          </p>
+          <ul style={{ color: "#64748b", fontSize: "1em" }}>
+            <li>
+              <b>ESC</b>, backdrop, or &lsquo;X&rsquo; closes
+            </li>
+            <li>
+              Focus restored to trigger button on close
+            </li>
+            <li>
+              Traps focus, ARIA role="dialog", a11y props
+            </li>
+            <li>Resizable (sm/md/lg), footer, theming, more</li>
+          </ul>
+        </div>
+      </Modal>
+
+      {/* Top-right info modal open buttons */}
       <button
         type="button"
         className="topright-modal-btn"
@@ -98,10 +167,10 @@ function App() {
           fill="none"
           style={{ display: "block" }}
         >
-          <circle cx="12" cy="12" r="10" fill="#3b82f6" opacity="0.13"/>
-          <circle cx="12" cy="12" r="9.2" stroke="#3b82f6" strokeWidth="1.4" fill="none"/>
-          <rect x="11.16" y="7.19" width="1.73" height="1.74" rx="0.87" fill="#3b82f6"/>
-          <rect x="11.13" y="10.14" width="1.73" height="6.2" rx="0.83" fill="#3b82f6"/>
+          <circle cx="12" cy="12" r="10" fill="#3b82f6" opacity="0.13" />
+          <circle cx="12" cy="12" r="9.2" stroke="#3b82f6" strokeWidth="1.4" fill="none" />
+          <rect x="11.16" y="7.19" width="1.73" height="1.74" rx="0.87" fill="#3b82f6" />
+          <rect x="11.13" y="10.14" width="1.73" height="6.2" rx="0.83" fill="#3b82f6" />
         </svg>
       </button>
       {/* AltActionButton immediately below the original, distinct color */}
@@ -110,6 +179,8 @@ function App() {
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
         title="About this App"
+        size="sm"
+        ariaLabel="About app modal"
       >
         <div style={{ color: "var(--color-text)", fontSize: "1.08rem", minWidth: 0, paddingTop: "0.13em" }}>
           <p>
@@ -123,6 +194,7 @@ function App() {
           </ul>
         </div>
       </Modal>
+
       {/* 
         Added bottom padding to ensure that BottomDock does not overlap. 
         If BottomDock height changes, adjust the 88px value appropriately.

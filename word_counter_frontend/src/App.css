@@ -787,3 +787,23 @@
     transform: none;
   }
 }
+
+/* --- Modal component minimal base styles --- */
+.modal-portal-overlay {
+  --modal-z: 1300;
+}
+
+.modal-portal-content {
+  outline: none;
+}
+.modal-portal-content:focus-visible {
+  outline: 2.5px solid #3b82f6;
+  box-shadow: 0 0 0 5px #3b82f640;
+}
+.modal-portal-close-btn:focus, .modal-portal-close-btn:hover {
+  background: color-mix(in srgb, var(--color-primary) 15%, transparent);
+  color: #1864ab;
+}
+.modal-portal-title {
+  user-select: none;
+}

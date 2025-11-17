@@ -5,6 +5,7 @@ import DemoTypingSpeed from './components/DemoTypingSpeed.jsx';
 import Sidebar from './components/Sidebar.jsx';
 import UtilityTips from './components/UtilityTips.jsx';
 import QuoteWidget from './components/QuoteWidget.jsx';
+import RandomWidget from './components/RandomWidget.jsx';
 import FloatingDock from './components/FloatingDock.jsx';
 import DailyDoseOfWord from './components/DailyDoseOfWord.jsx';
 import Navbar from './components/Navbar.jsx';
@@ -152,6 +153,9 @@ function App() {
               <DemoTypingSpeed />
               {/* Demo QuoteWidget - motivational/inspirational quote */}
               <QuoteWidget />
+
+              {/* Fun Fact Widget (new component) */}
+              <RandomWidget />
 
               {/* DailyDoseOfWord - random vocabulary below the quote */}
               <DailyDoseOfWord />

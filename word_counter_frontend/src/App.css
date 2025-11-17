@@ -737,6 +737,12 @@
     margin: 0 var(--space-1) var(--space-3) var(--space-1);
     min-height: 48px;
   }
+  .random-widget-container {
+    border-radius: 0.7rem !important;
+    max-width: 99vw !important;
+    margin: 0 0 var(--space-3) 0 !important;
+    padding: 0.95em 0.7em 0.81em 0.7em !important;
+  }
 }
 
 @keyframes demo-blink {

@@ -1,0 +1,36 @@
+.header {
+  width: 100%;
+  background: var(--color-surface, #fff);
+  border-bottom: 1.5px solid #e5e7eb;
+  box-shadow: 0 2px 12px 0 rgba(60,80,120,0.06);
+  padding: 0;
+}
+
+.inner {
+  max-width: 1112px;
+  margin: 0 auto;
+  padding: 1.25rem 1rem 1.12rem 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.title {
+  color: var(--color-primary, #3b82f6);
+  font-weight: 800;
+  font-size: 2.05rem;
+  letter-spacing: -0.5px;
+  margin: 0;
+  user-select: none;
+  text-align: center;
+  line-height: 1.15;
+}
+
+@media (max-width: 700px) {
+  .inner {
+    padding: .69rem .38rem .61rem .38rem;
+  }
+  .title {
+    font-size: 1.22rem;
+  }
+}

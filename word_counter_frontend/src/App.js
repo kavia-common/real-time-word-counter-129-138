@@ -13,27 +13,12 @@ import BottomDock from './components/BottomDock.jsx';
 // PUBLIC_INTERFACE: AltActionButton opens modal (secondary color)
 import AltActionButton from './components/AltActionButton.jsx';
 import Modal from './components/Modal.jsx';
+import Header from './components/Header.jsx';
 
-// PUBLIC_INTERFACE
-function countWords(text) {
-  /** Robust word counter for the word counter app.
-   * Returns { words, chars, charsNoSpaces, lines }
-   */
-  // Treat words as letter/number sequences separated by whitespace/punct
-  // Remove apostrophe or dashes at endpoints
-  const tokens = text
-    .replace(/[—–‐]/g, ' ') // replace dashes with space
-    .split(/\s+/)
-    .map(w => w.replace(/^[^\p{L}\p{N}]+|[^\p{L}\p{N}]+$/gu, '')) // trim non-word chars
-    .filter(w => w.length > 0);
-
-  return {
-    words: tokens.length,
-    chars: text.length,
-    charsNoSpaces: text.replace(/\s/g, '').length,
-    lines: (text.match(/\n/g) || []).length + 1,
-  };
-}
+import { countWords } from './utils/text.js';
+import { formatNumberWithCommas } from './utils/number.js';
+// Note: The previously-inline countWords function is now refactored to use the reusable helper from utils/text.js.
+// If existing components elsewhere use their own word/char logic, replace with these imports for consistency (see __examples__/utils-usage.md).
 
 // PUBLIC_INTERFACE
 function App() {
@@ -71,6 +56,7 @@ function App() {
   // Accessible: aria-label, tabIndex
   return (
     <>
+      <Header />
       <Navbar />
       {/* Fixed top-right modal open buttons */}
       <button

@@ -7,6 +7,7 @@ import UtilityTips from './components/UtilityTips.jsx';
 import QuoteWidget from './components/QuoteWidget.jsx';
 import FloatingDock from './components/FloatingDock.jsx';
 import DailyDoseOfWord from './components/DailyDoseOfWord.jsx';
+import Navbar from './components/Navbar.jsx';
 
 // PUBLIC_INTERFACE
 function countWords(text) {
@@ -59,115 +60,118 @@ function App() {
   };
 
   return (
-    <div className="word-counter-app">
-      <FloatingDock />
-      <div className="layout">
-        <Sidebar />
-        <main aria-label="Word Counter Application" style={{ width: '100%' }}>
-          <section className="counter-card">
-            <header className="counter-header">
-              Real-time Word Counter
-            </header>
-            {/* DemoTypingSpeed component */}
-            <DemoTypingSpeed />
-            {/* Demo QuoteWidget - motivational/inspirational quote */}
-            <QuoteWidget />
+    <>
+      <Navbar />
+      <div className="word-counter-app" style={{ paddingTop: "64px" }}>
+        <FloatingDock />
+        <div className="layout">
+          <Sidebar />
+          <main aria-label="Word Counter Application" style={{ width: '100%' }}>
+            <section className="counter-card">
+              <header className="counter-header">
+                Real-time Word Counter
+              </header>
+              {/* DemoTypingSpeed component */}
+              <DemoTypingSpeed />
+              {/* Demo QuoteWidget - motivational/inspirational quote */}
+              <QuoteWidget />
 
-            {/* DailyDoseOfWord - random vocabulary below the quote */}
-            <DailyDoseOfWord />
+              {/* DailyDoseOfWord - random vocabulary below the quote */}
+              <DailyDoseOfWord />
 
-          <label
-            htmlFor="word-counter-textarea"
-            className="counter-label"
-          >
-            Enter your text:
-          </label>
-          <textarea
-            id="word-counter-textarea"
-            aria-label="Text to analyze"
-            ref={textareaRef}
-            value={text}
-            onChange={handleChange}
-            rows={10}
-            spellCheck={true}
-            className="word-counter-textarea"
-            style={{resize: 'vertical'}}
-          />
-          <div className="counter-actions"
-               style={{
-                 display: 'flex',
-                 gap: 'var(--space-3)',
-                 justifyContent: 'flex-end',
-                 marginBottom: 'var(--space-4)'
-               }}
-          >
-            <button
-              type="button"
-              className="counter-btn"
-              aria-label="Clear text"
-              disabled={text.length === 0}
-              onClick={handleClear}
-              tabIndex={0}
+            <label
+              htmlFor="word-counter-textarea"
+              className="counter-label"
             >
-              Clear
-            </button>
-            <button
-              type="button"
-              className={`counter-btn primary${copied ? " copied" : ""}`}
-              aria-label="Copy text to clipboard"
-              disabled={text.length === 0}
-              onClick={handleCopy}
-              tabIndex={0}
+              Enter your text:
+            </label>
+            <textarea
+              id="word-counter-textarea"
+              aria-label="Text to analyze"
+              ref={textareaRef}
+              value={text}
+              onChange={handleChange}
+              rows={10}
+              spellCheck={true}
+              className="word-counter-textarea"
+              style={{resize: 'vertical'}}
+            />
+            <div className="counter-actions"
+                  style={{
+                    display: 'flex',
+                    gap: 'var(--space-3)',
+                    justifyContent: 'flex-end',
+                    marginBottom: 'var(--space-4)'
+                  }}
             >
-              {copied ? 'Copied!' : 'Copy'}
-            </button>
-          </div>
+              <button
+                type="button"
+                className="counter-btn"
+                aria-label="Clear text"
+                disabled={text.length === 0}
+                onClick={handleClear}
+                tabIndex={0}
+              >
+                Clear
+              </button>
+              <button
+                type="button"
+                className={`counter-btn primary${copied ? " copied" : ""}`}
+                aria-label="Copy text to clipboard"
+                disabled={text.length === 0}
+                onClick={handleCopy}
+                tabIndex={0}
+              >
+                {copied ? 'Copied!' : 'Copy'}
+              </button>
+            </div>
 
-          {/* UtilityTips: immediately below textarea+actions, above frequency stats */}
-          <UtilityTips text={text} />
+            {/* UtilityTips: immediately below textarea+actions, above frequency stats */}
+            <UtilityTips text={text} />
 
-          <div aria-live="polite" aria-atomic="true"
-               className="counter-stats-row"
-          >
-            <StatPill
-              label="Words"
-              value={stats.words}
-              color="var(--color-primary)"
-              testid="stat-words"
-            />
-            <StatPill
-              label="Chars"
-              value={stats.chars}
-              color="var(--color-secondary)"
-              testid="stat-chars"
-            />
-            <StatPill
-              label="No spaces"
-              value={stats.charsNoSpaces}
-              color="var(--color-accent)"
-              testid="stat-no-spaces"
-            />
-            <StatPill
-              label="Lines"
-              value={stats.lines}
-              color="var(--color-text)"
-              testid="stat-lines"
-            />
-          </div>
-          {/* Bottom frequency stats section */}
-          <FrequencyStats text={text} />
+            <div aria-live="polite" aria-atomic="true"
+                  className="counter-stats-row"
+            >
+              <StatPill
+                label="Words"
+                value={stats.words}
+                color="var(--color-primary)"
+                testid="stat-words"
+              />
+              <StatPill
+                label="Chars"
+                value={stats.chars}
+                color="var(--color-secondary)"
+                testid="stat-chars"
+              />
+              <StatPill
+                label="No spaces"
+                value={stats.charsNoSpaces}
+                color="var(--color-accent)"
+                testid="stat-no-spaces"
+              />
+              <StatPill
+                label="Lines"
+                value={stats.lines}
+                color="var(--color-text)"
+                testid="stat-lines"
+              />
+            </div>
+            {/* Bottom frequency stats section */}
+            <FrequencyStats text={text} />
 
-            <footer className="footer-hint">
-              <span>
-                <span className="footer-title">Word Counter</span> •{' '}
-                <span className="footer-theme">Light theme</span> •
-                <span className="visually-hidden">All counts update automatically as you type.</span>
-              </span>
-            </footer>
-          </section>
-        </main>
+              <footer className="footer-hint">
+                <span>
+                  <span className="footer-title">Word Counter</span> •{' '}
+                  <span className="footer-theme">Light theme</span> •
+                  <span className="visually-hidden">All counts update automatically as you type.</span>
+                </span>
+              </footer>
+            </section>
+          </main>
+        </div>
       </div>
-    </div>
+    </>
   );
 }
 

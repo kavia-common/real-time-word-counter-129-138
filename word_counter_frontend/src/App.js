@@ -5,6 +5,7 @@ import DemoTypingSpeed from './components/DemoTypingSpeed.jsx';
 import Sidebar from './components/Sidebar.jsx';
 import UtilityTips from './components/UtilityTips.jsx';
 import QuoteWidget from './components/QuoteWidget.jsx';
+import FloatingDock from './components/FloatingDock.jsx';
 
 // PUBLIC_INTERFACE
 function countWords(text) {
@@ -58,6 +59,7 @@ function App() {
 
   return (
     <div className="word-counter-app">
+      <FloatingDock />
       <div className="layout">
         <Sidebar />
         <main aria-label="Word Counter Application" style={{ width: '100%' }}>

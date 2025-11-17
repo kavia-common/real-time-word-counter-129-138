@@ -14,6 +14,7 @@ import BottomDock from './components/BottomDock.jsx';
 import AltActionButton from './components/AltActionButton.jsx';
 import Modal from './components/Modal.jsx';
 import Header from './components/Header.jsx';
+import AccentDivider from './components/AccentDivider.jsx';
 
 import { countWords } from './utils/text.js';
 import { formatNumberWithCommas } from './utils/number.js';
@@ -193,7 +194,10 @@ function App() {
               </button>
             </div>
 
-            {/* UtilityTips: immediately below textarea+actions, above frequency stats */}
+            {/* AccentDivider: Visually divides input/actions from stats */}
+            <AccentDivider margin="1.15rem 0 1.1rem 0" />
+
+            {/* UtilityTips: immediately below divider */}
             <UtilityTips text={text} />
 
             <div aria-live="polite" aria-atomic="true"

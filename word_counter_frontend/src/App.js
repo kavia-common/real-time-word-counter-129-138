@@ -9,6 +9,7 @@ import FloatingDock from './components/FloatingDock.jsx';
 import DailyDoseOfWord from './components/DailyDoseOfWord.jsx';
 import Navbar from './components/Navbar.jsx';
 import BottomDock from './components/BottomDock.jsx';
+import Modal from './components/Modal.jsx';
 
 // PUBLIC_INTERFACE
 function countWords(text) {
@@ -35,6 +36,7 @@ function countWords(text) {
 function App() {
   const [text, setText] = useState('');
   const [copied, setCopied] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const textareaRef = useRef(null);
 
   const stats = countWords(text);
@@ -60,9 +62,76 @@ function App() {
     }
   };
 
+  // Top-right modal open button
+  // Position: fixed, visible on all screens
+  // Modern "info" icon look, primary color fill
+  // Accessible: aria-label, tabIndex
+
   return (
     <>
       <Navbar />
+      {/* Fixed top-right modal open button */}
+      <button
+        type="button"
+        className="topright-modal-btn"
+        aria-label="Open modal dialog"
+        tabIndex={0}
+        onClick={() => setIsModalOpen(true)}
+        style={{
+          position: "fixed",
+          top: "20px",
+          right: "28px",
+          zIndex: 1100,
+          background: "var(--color-primary, #3b82f6)",
+          color: "#fff",
+          border: "none",
+          outline: "none",
+          borderRadius: "50%",
+          width: "48px",
+          height: "48px",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          fontSize: "1.95rem",
+          boxShadow: "0 4px 17px 0 rgba(60,80,120,0.15)",
+          cursor: "pointer",
+          transition: "background 0.14s cubic-bezier(0.45,0.03,0.47,1.0), box-shadow 0.13s",
+          opacity: 0.98,
+        }}
+      >
+        {/* SVG Info icon (modern, visually clear) */}
+        <svg
+          aria-hidden="true"
+          focusable="false"
+          width="27"
+          height="27"
+          viewBox="0 0 24 24"
+          fill="none"
+          style={{ display: "block" }}
+        >
+          <circle cx="12" cy="12" r="10" fill="#3b82f6" opacity="0.13"/>
+          <circle cx="12" cy="12" r="9.2" stroke="#3b82f6" strokeWidth="1.4" fill="none"/>
+          <rect x="11.16" y="7.19" width="1.73" height="1.74" rx="0.87" fill="#3b82f6"/>
+          <rect x="11.13" y="10.14" width="1.73" height="6.2" rx="0.83" fill="#3b82f6"/>
+        </svg>
+      </button>
+      <Modal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        title="About this App"
+      >
+        <div style={{ color: "var(--color-text)", fontSize: "1.08rem", minWidth: 0, paddingTop: "0.13em" }}>
+          <p>
+            This is a <b style={{ color: "var(--color-primary)" }}>modern React word counter</b> demo.
+          </p>
+          <ul style={{ paddingLeft: "1.2em", color: "var(--color-secondary)", fontSize: "1em", margin: "0.5em 0 0 0" }}>
+            <li>Real-time counts for words, chars, lines</li>
+            <li>Light theme, <span style={{ color: "#3b82f6" }}>#3b82f6</span> primary accents</li>
+            <li>Responsive, a11y, and clean UI</li>
+            <li>Modal supports close via <kbd>ESC</kbd>, X, or backdrop</li>
+          </ul>
+        </div>
+      </Modal>
       {/* 
         Added bottom padding to ensure that BottomDock does not overlap. 
         If BottomDock height changes, adjust the 88px value appropriately.
@@ -178,6 +247,25 @@ function App() {
       </div>
       {/* BottomDock appears global & overlays app bottom only */}
       <BottomDock />
+      {/* Scoped style for modal button (reinforce modern/hover/focus a11y) */}
+      <style>
+        {`
+        .topright-modal-btn:focus, .topright-modal-btn:hover {
+          background: #2563eb;
+          color: #fff;
+          box-shadow: 0 6px 31px 0 rgba(60,80,120,0.20);
+        }
+        @media (max-width: 600px) {
+          .topright-modal-btn {
+            width: 40px;
+            height: 40px;
+            top: 10px;
+            right: 10px;
+            font-size: 1.45rem;
+          }
+        }
+        `}
+      </style>
     </>
   );
 }

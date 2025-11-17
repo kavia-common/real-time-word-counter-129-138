@@ -6,6 +6,7 @@ import Sidebar from './components/Sidebar.jsx';
 import UtilityTips from './components/UtilityTips.jsx';
 import QuoteWidget from './components/QuoteWidget.jsx';
 import FloatingDock from './components/FloatingDock.jsx';
+import DailyDoseOfWord from './components/DailyDoseOfWord.jsx';
 
 // PUBLIC_INTERFACE
 function countWords(text) {
@@ -71,6 +72,9 @@ function App() {
             <DemoTypingSpeed />
             {/* Demo QuoteWidget - motivational/inspirational quote */}
             <QuoteWidget />
+
+            {/* DailyDoseOfWord - random vocabulary below the quote */}
+            <DailyDoseOfWord />
 
           <label
             htmlFor="word-counter-textarea"

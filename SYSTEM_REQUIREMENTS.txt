@@ -1,0 +1,62 @@
+Overview
+--------
+This project is a single-page React web application for real-time word counting. Development and local usage require minimal setup.
+
+Supported Operating Systems
+--------------------------
+- Windows 10/11 (x64)
+- macOS 12.0+ (Monterey or newer recommended)
+- Modern Linux distributions (Ubuntu 20.04+, Fedora 34+, Debian 11+)
+
+Required Software
+-----------------
+- Node.js (LTS recommended: v18.x or v20.x)
+- npm (v9.x or v10.x, typically bundled with Node)
+- Git (for cloning, optional but recommended)
+
+Hardware Recommendations
+------------------------
+- Memory: 2 GB RAM or higher
+- Disk: ~200 MB free disk space (includes dependencies and build)
+- CPU: Recent dual-core or better
+
+Network & Ports
+---------------
+- Serves locally on http://localhost:3000 by default
+- Requires access to port 3000 for development server
+- Internet connection needed to fetch third-party public quotes (quotable.io) and to install dependencies (npm install)
+- No external/private API keys or backend server required
+
+Environment Variables
+--------------------
+All environment variables are optional; most users need not set any.
+Available variables:
+  - REACT_APP_API_BASE
+  - REACT_APP_BACKEND_URL
+  - REACT_APP_FRONTEND_URL
+  - REACT_APP_WS_URL
+  - REACT_APP_NODE_ENV
+  - REACT_APP_NEXT_TELEMETRY_DISABLED
+  - REACT_APP_ENABLE_SOURCE_MAPS
+  - REACT_APP_PORT            (defaults to 3000 if unset)
+  - REACT_APP_TRUST_PROXY
+  - REACT_APP_LOG_LEVEL
+  - REACT_APP_HEALTHCHECK_PATH
+  - REACT_APP_FEATURE_FLAGS
+  - REACT_APP_EXPERIMENTS_ENABLED
+See PROJECT_DOC.md for expanded notes. For most local dev and normal use, no .env setup is needed.
+
+Browser Support
+---------------
+- Google Chrome 105+ (recommended)
+- Mozilla Firefox 104+
+- Microsoft Edge 105+
+- Safari 15+
+- Mobile: Latest Chrome and Safari on iOS 15+, Android 11+
+
+Optional Tools
+--------------
+- Code editor: VS Code, WebStorm, or similar (optional)
+- ESLint for linting (auto-configured); run with `npx eslint .`
+- Jest for testing (`npm test`)
+- Prettier for formatting (optional, not bundled)
